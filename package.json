@@ -1,0 +1,40 @@
+{
+  "name": "peuta_backend",
+  "version": "0.0.1",
+  "description": "Backend for peuta",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "ts-node-dev src/infrastructure/server/server.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/IgnacioBarraza/PeUta_Backend.git"
+  },
+  "author": "IgnacioBarraza",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/IgnacioBarraza/PeUta_Backend/issues"
+  },
+  "homepage": "https://github.com/IgnacioBarraza/PeUta_Backend#readme",
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/morgan": "^1.9.9",
+    "@types/node": "^22.13.10",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "morgan": "^1.10.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.2"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express-rate-limit": "^7.5.0",
+    "pg": "^8.14.0",
+    "ts-node-dev": "^2.0.0",
+    "typeorm": "^0.3.21",
+    "validator": "^13.12.0",
+    "zod": "^3.24.2"
+  }
+}
