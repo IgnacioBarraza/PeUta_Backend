@@ -2,9 +2,8 @@ import express, { Request, Response } from 'express'
 import morgan from 'morgan'
 import cors from 'cors'
 import { sendResponse } from '../../utils/utils'
-import { config } from 'dotenv'
-
-config()
+import { envConfig } from '../config/env-config'
+import { initDatabase } from '../orm/data-source'
 
 const app = express()
 
@@ -15,7 +14,14 @@ app.use('/healthy', (req: Request, res: Response) => {
   sendResponse(req, res, 'OK', 200)
 })
 
-const { PORT } = process.env
-app.listen(PORT || 4000, () => {
-  console.log(`🚀🚀 Server running on port: ${PORT} 🚀🚀`)
-})
+initDatabase()
+  .then(() => {
+    console.log('Database initialized and connected')
+    app.listen(envConfig.port || 4000, () => {
+      console.log(`🚀🚀 Server running on port: ${envConfig.port} 🚀🚀`)
+    })
+  })
+  .catch(error => {
+    console.error('Error initializing database', error)
+    process.exit(1)
+  })
