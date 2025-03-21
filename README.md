@@ -1,7 +1,3 @@
-¡Vamos a actualizar el README según la estructura que tienes en la foto! Quedaría algo así:
-
----
-
 # 🌟 Science Fair Evaluation Platform  
 
 ## 🚀 Project Overview  
