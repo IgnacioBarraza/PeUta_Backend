@@ -1,15 +1,14 @@
-import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Role } from "./Role";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { RolePermissions } from "./RolePermissions";
 
 @Entity()
-export class Permissions {
+export class Permission {
   @PrimaryGeneratedColumn('uuid')
   uid!: string
 
   @Column()
   action!: string
 
-  @ManyToMany(() => Role)
-  @JoinTable()
-  rolePermissions!: Role[]
+  @OneToMany(() => RolePermissions, (rolePermission) => rolePermission.permissions)
+  rolePermissions!: RolePermissions[];
 }

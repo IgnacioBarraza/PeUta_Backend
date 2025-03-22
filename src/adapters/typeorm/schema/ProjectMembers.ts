@@ -9,6 +9,6 @@ export class ProjectMembers {
   @Column()
   name!: string
 
-  @ManyToOne(() => Project, (project) => project.members, { onDelete: 'CASCADE' })
+  @ManyToOne(() => Project, (project) => project.members, { onDelete: 'CASCADE', eager: true })
   project!: Project
 }

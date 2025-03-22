@@ -1,5 +1,6 @@
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Role } from "./Role";
+import { Evaluations } from "./Evaluations";
 
 @Entity()
 export class User {
@@ -9,7 +10,7 @@ export class User {
   @Column()
   name!: string
 
-  @Column()
+  @Column({ unique: true })
   rut!: string
 
   @Column()
@@ -17,4 +18,7 @@ export class User {
 
   @ManyToOne(() => Role, (role) => role.users, { eager: true })
   role!: Role
+
+  @OneToMany(() => Evaluations, evaluations => evaluations.user)
+  evaluations!: Evaluations[]
 }
