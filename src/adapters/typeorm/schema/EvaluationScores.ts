@@ -10,9 +10,9 @@ export class EvaluationScores {
   @Column({ type: 'float', default: 0 })
   score!: number
 
-  @ManyToOne(() =>  Evaluations, evaluations => evaluations.evaluationScores, { eager: true })
+  @ManyToOne(() =>  Evaluations, evaluations => evaluations.evaluationScores)
   evaluations!: Evaluations
 
-  @ManyToOne(() =>  EvaluationQuestions, questions => questions.evaluationScores, { eager: true })
+  @ManyToOne(() =>  EvaluationQuestions, questions => questions.evaluationScores)
   evaluationQuestions!: EvaluationQuestions
 }

@@ -14,10 +14,10 @@ export class Evaluations {
   @Column('timestamp')
   createdAt!: string
 
-  @ManyToOne(() => User, (user) => user.evaluations, { eager: true })
+  @ManyToOne(() => User, (user) => user.evaluations)
   user!: User
 
-  @ManyToOne(() => Project, (project) => project.evaluations, { eager: true })
+  @ManyToOne(() => Project, (project) => project.evaluations)
   project!: Project
 
   @OneToMany(() => EvaluationScores, scores => scores.evaluations)

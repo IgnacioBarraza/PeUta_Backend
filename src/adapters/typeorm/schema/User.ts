@@ -13,10 +13,10 @@ export class User {
   @Column({ unique: true })
   rut!: string
 
-  @Column()
+  @Column({ select: false })
   password!: string
 
-  @ManyToOne(() => Role, (role) => role.users, { eager: true })
+  @ManyToOne(() => Role, (role) => role.users)
   role!: Role
 
   @OneToMany(() => Evaluations, evaluations => evaluations.user)
