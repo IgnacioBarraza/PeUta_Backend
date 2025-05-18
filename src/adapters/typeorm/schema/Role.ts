@@ -1,5 +1,5 @@
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { User } from "./User";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import { User } from './User'
 
 @Entity()
 export class Role {
@@ -12,6 +12,6 @@ export class Role {
   @OneToMany(() => User, user => user.role)
   users!: User[]
 
-  @Column({ type: 'jsonb', nullable: false, default: '[]'})
-  permissions!: string[];
+  @Column({ type: 'jsonb', nullable: false, default: '[]' })
+  permissions!: string[]
 }
