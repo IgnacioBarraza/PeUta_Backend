@@ -22,6 +22,6 @@ export class EvaluationQuestions {
   @ManyToMany(() => ProjectCategories, (category) => category.questions)
   categories!: ProjectCategories[]
 
-  @OneToMany(() => EvaluationScores, scores => scores.evaluationQuestions)
+  @OneToMany(() => EvaluationScores, scores => scores.questions)
   evaluationScores!: EvaluationScores
 }

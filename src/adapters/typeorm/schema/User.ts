@@ -19,6 +19,8 @@ export class User {
   @ManyToOne(() => Role, (role) => role.users)
   role!: Role
 
-  @OneToMany(() => Evaluations, evaluations => evaluations.user)
+  @OneToMany(() => Evaluations, evaluations => evaluations.user, {
+    nullable: true
+  })
   evaluations!: Evaluations[]
 }

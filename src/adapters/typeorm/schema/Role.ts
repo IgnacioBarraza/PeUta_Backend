@@ -1,6 +1,5 @@
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "./User";
-import { RolePermissions } from "./RolePermissions";
 
 @Entity()
 export class Role {
@@ -8,11 +7,11 @@ export class Role {
   uid!: string
 
   @Column()
-  roleName!: string
+  name!: string
 
   @OneToMany(() => User, user => user.role)
   users!: User[]
 
-  @OneToMany(() => RolePermissions, (rolePermission) => rolePermission.role)
-  rolePermissions!: RolePermissions[];
+  @Column({ type: 'jsonb', nullable: false, default: '[]'})
+  permissions!: string[];
 }

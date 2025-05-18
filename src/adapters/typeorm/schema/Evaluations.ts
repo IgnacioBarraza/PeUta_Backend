@@ -12,7 +12,7 @@ export class Evaluations {
   finalScore!: number
 
   @Column('timestamp')
-  createdAt!: string
+  createdAt!: Date
 
   @ManyToOne(() => User, (user) => user.evaluations)
   user!: User

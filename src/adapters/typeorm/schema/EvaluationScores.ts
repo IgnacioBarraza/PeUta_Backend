@@ -14,5 +14,5 @@ export class EvaluationScores {
   evaluations!: Evaluations
 
   @ManyToOne(() =>  EvaluationQuestions, questions => questions.evaluationScores)
-  evaluationQuestions!: EvaluationQuestions
+  questions!: EvaluationQuestions
 }

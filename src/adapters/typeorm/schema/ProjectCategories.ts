@@ -1,5 +1,6 @@
-import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { EvaluationQuestions } from "./EvaluationQuestions";
+import { Project } from "./Project";
 
 @Entity()
 export class ProjectCategories {
@@ -15,4 +16,7 @@ export class ProjectCategories {
   @ManyToMany(() => EvaluationQuestions, (question) => question.categories)
   @JoinTable()
   questions!: EvaluationQuestions[]
+
+  @ManyToOne(() => Project, project => project.category)
+  project!: Project[]
 }
