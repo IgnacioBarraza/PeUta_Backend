@@ -6,6 +6,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "ts-node-dev src/infrastructure/server/server.ts",
+    "typeorm": "typeorm-ts-node-commonjs",
+    "migration:generate": "npm run typeorm -- migration:generate -d src/infrastructure/orm/data-source.ts src/infrastructure/orm/migrations/",
+    "migration:run": "npm run typeorm -- migration:run -d src/infrastructure/orm/data-source.ts",
+    "migration:revert": "npm run typeorm -- migration:revert -d src/infrastructure/orm/data-source.ts",
+    "migration:show": "npm run typeorm -- migration:show -d src/infrastructure/orm/data-source.ts",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "format": "prettier --write .",
