@@ -1,5 +1,5 @@
-import { EvaluationEntity } from "./EvaluationEntity"
-import { RoleEntity } from "./RoleEntity"
+import { EvaluationEntity } from './EvaluationEntity'
+import { RoleEntity } from './RoleEntity'
 
 export class UserEntity {
   uid: string
@@ -7,7 +7,7 @@ export class UserEntity {
   rut: string
   password: string
   role: RoleEntity
-  evaluations: EvaluationEntity[]
+  evaluations?: EvaluationEntity[]
 
   constructor(data: UserEntity) {
     this.uid = data.uid

@@ -1,13 +1,14 @@
-import { EvaluationEntity } from "./EvaluationEntity"
+import { EvaluationEntity } from './EvaluationEntity'
+import { ProjectCategoryEntity } from './ProjectCategoriesEntity'
 
 export class ProjectEntity {
   uid: string
   projectName: string
   description: string
-  category: string
+  category: ProjectCategoryEntity
   imageUrl: string
   averageScore: number
-  members: Record<string, string>[]
+  members: { name: string; lastName: string }[]
   evaluations: EvaluationEntity[]
 
   constructor(data: ProjectEntity) {

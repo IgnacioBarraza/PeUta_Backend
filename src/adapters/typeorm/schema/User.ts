@@ -1,6 +1,12 @@
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Role } from "./Role";
-import { Evaluations } from "./Evaluations";
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm'
+import { Role } from './Role'
+import { Evaluations } from './Evaluations'
 
 @Entity()
 export class User {
@@ -16,11 +22,11 @@ export class User {
   @Column({ select: false })
   password!: string
 
-  @ManyToOne(() => Role, (role) => role.users)
+  @ManyToOne(() => Role)
   role!: Role
 
   @OneToMany(() => Evaluations, evaluations => evaluations.user, {
-    nullable: true
+    nullable: true,
   })
-  evaluations!: Evaluations[]
+  evaluations?: Evaluations[]
 }

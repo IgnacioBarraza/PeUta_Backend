@@ -1,4 +1,5 @@
-import { EvaluationScoreEntity } from "./EvaluationScoresEntity"
+import { EvaluationScoreEntity } from './EvaluationScoresEntity'
+import { ProjectCategoryEntity } from './ProjectCategoriesEntity'
 
 export class EvaluationQuestionEntity {
   uid: string
@@ -6,8 +7,8 @@ export class EvaluationQuestionEntity {
   question: string
   minScore: number
   maxScore: number
-  categories: string[]
-  evaluationScore: EvaluationScoreEntity
+  categories: ProjectCategoryEntity[]
+  evaluationScores: EvaluationScoreEntity
 
   constructor(data: EvaluationQuestionEntity) {
     this.uid = data.uid
@@ -16,6 +17,6 @@ export class EvaluationQuestionEntity {
     this.minScore = data.minScore
     this.maxScore = data.maxScore
     this.categories = data.categories
-    this.evaluationScore = data.evaluationScore
+    this.evaluationScores = data.evaluationScores
   }
 }

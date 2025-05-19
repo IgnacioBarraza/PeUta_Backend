@@ -1,6 +1,6 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Evaluations } from "./Evaluations";
-import { ProjectCategories } from "./ProjectCategories";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import { Evaluations } from './Evaluations'
+import { ProjectCategories } from './ProjectCategories'
 
 @Entity()
 export class Project {
@@ -13,8 +13,8 @@ export class Project {
   @Column()
   description!: string
 
-  @OneToMany(() => ProjectCategories, (category) => category.project)
-  category!: string
+  @OneToMany(() => ProjectCategories, category => category.project)
+  category!: ProjectCategories
 
   @Column()
   imageUrl!: string
@@ -22,7 +22,7 @@ export class Project {
   @Column({ type: 'float', default: 0 })
   averageScore!: number
 
-  @Column({ type: 'jsonb', nullable: false, default: '[]'})
+  @Column({ type: 'jsonb', nullable: false, default: '[]' })
   members!: {
     name: string
     lastName: string
