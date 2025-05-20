@@ -13,9 +13,19 @@ export class UserRepositoryImpl implements UserRepository {
     this.userRepo = this.db.getRepository(User)
   }
 
+  async getUserByRut(rut: string): Promise<UserEntity | null> {
+    const user = await this.userRepo.findOne({
+      where: {
+        rut: rut
+      }
+    })
+
+    return user ? UserMapper.toDomain(user) : null
+  }
+
   async getAllUsers(): Promise<UserEntity[] | []> {
     const users = await this.userRepo.find({
-      where: {
+      relations: {
         role: true,
         evaluations: true,
       },

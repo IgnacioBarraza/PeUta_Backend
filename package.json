@@ -33,6 +33,7 @@
   },
   "homepage": "https://github.com/IgnacioBarraza/PeUta_Backend#readme",
   "devDependencies": {
+    "@types/cookie-parser": "^1.4.8",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/morgan": "^1.9.9",
@@ -44,10 +45,15 @@
     "typescript": "^5.8.2"
   },
   "dependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/jsonwebtoken": "^9.0.9",
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
     "dotenv": "^16.4.7",
     "eslint": "^9.27.0",
     "express-rate-limit": "^7.5.0",
     "husky": "^9.1.7",
+    "jsonwebtoken": "^9.0.2",
     "lint-staged": "^16.0.0",
     "pg": "^8.14.0",
     "prettier": "^3.5.3",

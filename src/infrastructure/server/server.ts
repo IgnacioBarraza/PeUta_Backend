@@ -4,11 +4,13 @@ import cors from 'cors'
 import { sendResponse } from '../../utils/utils'
 import { envConfig } from '../config/env-config'
 import { initDatabase } from '../orm/data-source'
+import cookieParser from 'cookie-parser'
 
 const app = express()
 
 app.use(cors())
 app.use(morgan('dev'))
+app.use(cookieParser())
 
 app.use('/healthy', (req: Request, res: Response) => {
   sendResponse(req, res, 'OK', 200)
