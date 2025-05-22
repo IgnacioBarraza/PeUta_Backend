@@ -19,8 +19,8 @@ export class Project {
   @Column()
   imageUrl!: string
 
-  @Column({ type: 'float', default: 0 })
-  averageScore!: number
+  @Column({ type: 'float', default: 0, nullable: true })
+  averageScore?: number
 
   @Column({ type: 'jsonb', nullable: false, default: '[]' })
   members!: {
