@@ -18,7 +18,7 @@ export function sendResponse(
     cookies.forEach(cookie => {
       response.cookie(cookie.name, cookie.value, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
+        secure: process.env.NODE_ENV === 'prod',
         sameSite: 'strict',
         ...cookie.options,
       })

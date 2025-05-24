@@ -11,7 +11,7 @@ export const ProjectMapper = {
       description: raw.description,
       category: CategoryMapper.toDomain(raw.category),
       imageUrl: raw.imageUrl,
-      averageScore: raw.averageScore,
+      averageScore: raw.averageScore ? raw.averageScore : 0,
       members: raw.members.map(m => m),
       evaluations: raw.evaluations.map(EvaluationMapper.toDomain),
     })
