@@ -22,11 +22,13 @@ A web platform designed to streamline the evaluation process for projects presen
 │   ├── 📁 cache/                # Cache layer (Redis or in-memory LRU cache)
 │   └── 📁 typeorm/              # TypeORM specific implementations
 │       ├── 📁 repositoryImpl/   # Repository implementations for TypeORM
+│       ├── 📁 Mappers/          # Data mappers for entity and schema types
 │       └── 📁 schema/           # TypeORM entities (DB schemas)
 │
 ├── 📁 core/                     # Business logic (pure, framework-independent)
 │   ├── 📁 entities/             # Domain entities
 │   ├── 📁 services/             # Application use cases
+│   ├── 📁 validations/          # Data validations schemas
 │   └── 📁 ports/                # Interfaces to connect logic to infrastructure
 │
 ├── 📁 infrastructure/           # Manages external tools and systems
