@@ -27,6 +27,14 @@ export class RoleRepositoryImpl implements RoleRepository {
     return role ? RoleMapper.toDomain(role) : null
   }
 
+  async getDefaultRole(): Promise<RoleEntity | null> {
+    const role = await this.roleRepo.findOne({
+      where: { name: 'user'}
+    })
+
+    return role ? RoleMapper.toDomain(role) : null
+  }
+
   async createRole(data: Partial<RoleEntity>): Promise<RoleEntity> {
     const ormRoleData = RoleMapper.toSchema(data as RoleEntity)
     const newRole = this.roleRepo.create(ormRoleData)

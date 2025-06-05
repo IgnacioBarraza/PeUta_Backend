@@ -1,6 +1,7 @@
 import { CustomError } from "../../infrastructure/middlewares/errorHandler";
 import { RoleEntity } from "../entities/RoleEntity";
 import { RoleRepository } from "../ports/RoleRepository";
+import { RoleValidation } from "../validations/RoleValidation";
 
 export class RoleService {
   constructor(private roleRepository: RoleRepository) {}
@@ -20,6 +21,42 @@ export class RoleService {
   }
 
   async createRole(data: Partial<RoleEntity>): Promise<RoleEntity> {
-    const parsedData =
+    const parsedData = RoleValidation.safeParse(data)
+
+    if (!parsedData.success) throw new CustomError('Invalid form', 400, parsedData.error)
+
+    const newRole = await this.roleRepository.createRole(parsedData.data)
+    
+    if (!newRole) throw new CustomError('Error creating new role', 500, ['Error base de datos'])
+
+    return newRole
+  }
+
+  async updateRole(uid: string, data: Partial<RoleEntity>): Promise<RoleEntity> {
+    const { name, permissions } = data
+
+    const role = await this.getRoleById(uid)
+
+    if (!Array.isArray(permissions)) throw new CustomError('Permissions must be an array', 400, ['Permisos debe ser un array'])
+
+    const updatedPermissions = [...role.permissions]
+
+    for (let i = 0; i < updatedPermissions.length; i++) {
+      if (updatedPermissions[i] === permissions[i]) {
+        updatedPermissions[i] = permissions[i]
+      } else {
+        updatedPermissions.push(permissions[i])
+      }
+    }
+
+    const updatedRoleData = {
+      name: name ?? role.name,
+      permissions: updatedPermissions
+    }
+
+    const updatedRole = await this.roleRepository.updateRole(uid, updatedRoleData)
+    if (!updatedRole) throw new CustomError('Error updating role', 500, ['Error base de datos'])
+
+    return updatedRole
   }
 }

@@ -5,10 +5,11 @@ import { UserEntity } from '../entities/UserEntity'
 import { UserRepository } from '../ports/UserRepository'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import { RoleRepository } from '../ports/RoleRepository'
 const saltRounds = 12
 
 export class UserService {
-  constructor(private userRepository: UserRepository) {}
+  constructor(private userRepository: UserRepository, private roleRepository: RoleRepository) {}
 
   async getAllUser(): Promise<UserEntity[]> {
     const users = await this.userRepository.getAllUsers()
@@ -35,13 +36,14 @@ export class UserService {
         'Usuario ya registrado',
       ])
 
-    // const role = await this.
+    const role = user.role ? await this.roleRepository.getRoleById(user.role.uid) : await this.roleRepository.getDefaultRole()
 
     const hashPassword = await bcrypt.hash(user.password!, saltRounds)
 
     const newUser = {
       ...user,
       password: hashPassword,
+      role: role ?? undefined
     }
 
     const createdUser = await this.userRepository.register(newUser)

@@ -4,9 +4,12 @@ import { UserService } from '../../../core/services/UserService'
 import { UserRepositoryImpl } from '../../../adapters/typeorm/repositoryImpl/UserRepositoryImpl'
 import { AppDataSource } from '../../orm/data-source'
 import { UserRepository } from '../../../core/ports/UserRepository'
+import { RoleRepository } from '../../../core/ports/RoleRepository'
+import { RoleRepositoryImpl } from '../../../adapters/typeorm/repositoryImpl/RoleRepositoryImpl'
 
 const userRepository: UserRepository = new UserRepositoryImpl(AppDataSource)
-const userService = new UserService(userRepository)
+const roleRepository: RoleRepository = new RoleRepositoryImpl(AppDataSource)
+const userService = new UserService(userRepository, roleRepository)
 const userController = new UserController(userService)
 
 export const userRouter = Router()
