@@ -49,7 +49,6 @@ export class UserController {
 
   public login = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      console.log(req)
       const { rut, password } = req.body
       const token = await this.userService.login(rut, password)
 

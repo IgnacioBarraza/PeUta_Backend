@@ -1,21 +1,23 @@
-import { CustomError } from "../../infrastructure/middlewares/errorHandler";
-import { RoleEntity } from "../entities/RoleEntity";
-import { RoleRepository } from "../ports/RoleRepository";
-import { RoleValidation } from "../validations/RoleValidation";
+import { CustomError } from '../../infrastructure/middlewares/errorHandler'
+import { RoleEntity } from '../entities/RoleEntity'
+import { RoleRepository } from '../ports/RoleRepository'
+import { RoleValidation } from '../validations/RoleValidation'
 
 export class RoleService {
   constructor(private roleRepository: RoleRepository) {}
 
   async getAllRoles(): Promise<RoleEntity[] | []> {
     const roles = await this.roleRepository.getAllRoles()
-    if (roles.length === 0) throw new CustomError('Roles not found', 404, ['Roles no encontrados'])
+    if (roles.length === 0)
+      throw new CustomError('Roles not found', 404, ['Roles no encontrados'])
 
     return roles
   }
 
   async getRoleById(uid: string): Promise<RoleEntity> {
     const role = await this.roleRepository.getRoleById(uid)
-    if (!role) throw new CustomError('Role not found', 404, ['Rol no encontrado'])
+    if (!role)
+      throw new CustomError('Role not found', 404, ['Rol no encontrado'])
 
     return role
   }
@@ -23,21 +25,31 @@ export class RoleService {
   async createRole(data: Partial<RoleEntity>): Promise<RoleEntity> {
     const parsedData = RoleValidation.safeParse(data)
 
-    if (!parsedData.success) throw new CustomError('Invalid form', 400, parsedData.error)
+    if (!parsedData.success)
+      throw new CustomError('Invalid form', 400, parsedData.error)
 
     const newRole = await this.roleRepository.createRole(parsedData.data)
-    
-    if (!newRole) throw new CustomError('Error creating new role', 500, ['Error base de datos'])
+
+    if (!newRole)
+      throw new CustomError('Error creating new role', 500, [
+        'Error base de datos',
+      ])
 
     return newRole
   }
 
-  async updateRole(uid: string, data: Partial<RoleEntity>): Promise<RoleEntity> {
+  async updateRole(
+    uid: string,
+    data: Partial<RoleEntity>
+  ): Promise<RoleEntity> {
     const { name, permissions } = data
 
     const role = await this.getRoleById(uid)
 
-    if (!Array.isArray(permissions)) throw new CustomError('Permissions must be an array', 400, ['Permisos debe ser un array'])
+    if (!Array.isArray(permissions))
+      throw new CustomError('Permissions must be an array', 400, [
+        'Permisos debe ser un array',
+      ])
 
     const updatedPermissions = [...role.permissions]
 
@@ -51,12 +63,20 @@ export class RoleService {
 
     const updatedRoleData = {
       name: name ?? role.name,
-      permissions: updatedPermissions
+      permissions: updatedPermissions,
     }
 
-    const updatedRole = await this.roleRepository.updateRole(uid, updatedRoleData)
-    if (!updatedRole) throw new CustomError('Error updating role', 500, ['Error base de datos'])
+    const updatedRole = await this.roleRepository.updateRole(
+      uid,
+      updatedRoleData
+    )
+    if (!updatedRole)
+      throw new CustomError('Error updating role', 500, ['Error base de datos'])
 
     return updatedRole
+  }
+
+  async deleteRole(uid: string): Promise<void> {
+    await this.roleRepository.deleteRole(uid)
   }
 }
