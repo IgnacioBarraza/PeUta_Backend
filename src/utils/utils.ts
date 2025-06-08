@@ -14,9 +14,15 @@ export function sendResponse(
   status = 200,
   cookies?: CookieData[]
 ) {
-  console.log('cookies', cookies)
   if (cookies && cookies.length > 0) {
     cookies.forEach(cookie => {
+      if (typeof cookie.value === 'object') {
+        console.warn(
+          `⚠️  Warning: Cookie "${cookie.name}" has an object as value. Converting it to JSON string.`
+        )
+        cookie.value = JSON.stringify(cookie.value)
+      }
+
       response.cookie(cookie.name, cookie.value, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'prod',
