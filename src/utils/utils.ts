@@ -14,6 +14,7 @@ export function sendResponse(
   status = 200,
   cookies?: CookieData[]
 ) {
+  console.log('cookies', cookies)
   if (cookies && cookies.length > 0) {
     cookies.forEach(cookie => {
       response.cookie(cookie.name, cookie.value, {

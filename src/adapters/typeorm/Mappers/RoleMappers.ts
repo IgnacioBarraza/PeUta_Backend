@@ -14,6 +14,7 @@ export const RoleMapper = {
     const role = new Role()
     role.uid = entity.uid
     role.name = entity.name
+    role.permissions = entity.permissions
     return role
   },
 }

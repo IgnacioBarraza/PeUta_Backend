@@ -9,7 +9,10 @@ import { RoleRepository } from '../ports/RoleRepository'
 const saltRounds = 12
 
 export class UserService {
-  constructor(private userRepository: UserRepository, private roleRepository: RoleRepository) {}
+  constructor(
+    private userRepository: UserRepository,
+    private roleRepository: RoleRepository
+  ) {}
 
   async getAllUser(): Promise<UserEntity[]> {
     const users = await this.userRepository.getAllUsers()
@@ -36,15 +39,19 @@ export class UserService {
         'Usuario ya registrado',
       ])
 
-    const role = user.role ? await this.roleRepository.getRoleById(user.role.uid) : await this.roleRepository.getDefaultRole()
+    const role = user.role
+      ? await this.roleRepository.getRoleById(user.role.uid)
+      : await this.roleRepository.getDefaultRole()
 
     const hashPassword = await bcrypt.hash(user.password!, saltRounds)
 
     const newUser = {
       ...user,
       password: hashPassword,
-      role: role ?? undefined
+      role: role ?? undefined,
     }
+
+    console.log(newUser)
 
     const createdUser = await this.userRepository.register(newUser)
     console.log(createdUser)
@@ -55,7 +62,11 @@ export class UserService {
       ])
 
     const token = jwt.sign(
-      { user: createdUser.uid, rut: createdUser.rut, role: createdUser.role },
+      {
+        user: createdUser.uid,
+        rut: createdUser.rut,
+        role: createdUser.role.name,
+      },
       envConfig.jwtSecret as string,
       {
         expiresIn: '3h',
@@ -76,7 +87,7 @@ export class UserService {
       ])
 
     const token = jwt.sign(
-      { user: user.uid, rut: user.rut, role: user.role },
+      { user: user.uid, rut: user.rut, role: user.role.name },
       envConfig.jwtSecret as string,
       {
         expiresIn: '3h',

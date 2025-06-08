@@ -19,7 +19,7 @@ export class User {
   @Column({ unique: true })
   rut!: string
 
-  @Column({ select: false })
+  @Column()
   password!: string
 
   @ManyToOne(() => Role)

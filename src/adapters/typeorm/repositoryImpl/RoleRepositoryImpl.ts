@@ -1,8 +1,8 @@
-import { DataSource, Repository } from "typeorm";
-import { RoleRepository } from "../../../core/ports/RoleRepository";
-import { Role } from "../schema/Role";
-import { RoleEntity } from "../../../core/entities/RoleEntity";
-import { RoleMapper } from "../Mappers/RoleMappers";
+import { DataSource, Repository } from 'typeorm'
+import { RoleRepository } from '../../../core/ports/RoleRepository'
+import { Role } from '../schema/Role'
+import { RoleEntity } from '../../../core/entities/RoleEntity'
+import { RoleMapper } from '../Mappers/RoleMappers'
 
 export class RoleRepositoryImpl implements RoleRepository {
   private db: DataSource
@@ -21,7 +21,7 @@ export class RoleRepositoryImpl implements RoleRepository {
 
   async getRoleById(uid: string): Promise<RoleEntity | null> {
     const role = await this.roleRepo.findOne({
-      where: { uid: uid}
+      where: { uid: uid },
     })
 
     return role ? RoleMapper.toDomain(role) : null
@@ -29,7 +29,7 @@ export class RoleRepositoryImpl implements RoleRepository {
 
   async getDefaultRole(): Promise<RoleEntity | null> {
     const role = await this.roleRepo.findOne({
-      where: { name: 'user'}
+      where: { name: 'USER' },
     })
 
     return role ? RoleMapper.toDomain(role) : null
@@ -43,7 +43,10 @@ export class RoleRepositoryImpl implements RoleRepository {
     return RoleMapper.toDomain(savedRole)
   }
 
-  async updateRole(uid: string, data: Partial<RoleEntity>): Promise<RoleEntity | null> {
+  async updateRole(
+    uid: string,
+    data: Partial<RoleEntity>
+  ): Promise<RoleEntity | null> {
     await this.roleRepo.update(uid, data)
     return await this.getRoleById(uid)
   }

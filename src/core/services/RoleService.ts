@@ -22,13 +22,14 @@ export class RoleService {
     return role
   }
 
-  async createRole(data: Partial<RoleEntity>): Promise<RoleEntity> {
-    const parsedData = RoleValidation.safeParse(data)
+  async createRole(role: Partial<RoleEntity>): Promise<RoleEntity> {
+    const parsedData = RoleValidation.safeParse(role)
 
     if (!parsedData.success)
       throw new CustomError('Invalid form', 400, parsedData.error)
+    const data = parsedData.data
 
-    const newRole = await this.roleRepository.createRole(parsedData.data)
+    const newRole = await this.roleRepository.createRole(data)
 
     if (!newRole)
       throw new CustomError('Error creating new role', 500, [

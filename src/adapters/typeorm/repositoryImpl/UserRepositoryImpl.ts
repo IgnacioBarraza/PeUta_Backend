@@ -16,8 +16,12 @@ export class UserRepositoryImpl implements UserRepository {
   async getUserByRut(rut: string): Promise<UserEntity | null> {
     const user = await this.userRepo.findOne({
       where: {
-        rut: rut
-      }
+        rut: rut,
+      },
+      relations: {
+        role: true,
+        evaluations: true,
+      },
     })
 
     return user ? UserMapper.toDomain(user) : null
@@ -39,7 +43,9 @@ export class UserRepositoryImpl implements UserRepository {
     const newUser = this.userRepo.create(ormUserData)
     const savedUser = await this.userRepo.save(newUser)
 
-    return savedUser ? UserMapper.toDomain(savedUser) : null
+    const user = await this.getUserByRut(savedUser.rut)
+
+    return user ? UserMapper.toDomain(user) : null
   }
 
   async login(rut: string, password: string): Promise<UserEntity | null> {

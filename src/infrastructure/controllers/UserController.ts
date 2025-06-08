@@ -54,7 +54,7 @@ export class UserController {
 
       sendResponse(req, res, { message: 'Inicio de sesión exitoso' }, 200, [
         {
-          name: 'user token',
+          name: 'user_token',
           value: token,
           options: {
             maxAge: 3 * 60 * 60 * 1000, // 3 horas
@@ -62,6 +62,7 @@ export class UserController {
         },
       ])
     } catch (error) {
+      console.error(error)
       const { message, errors } = sanitizeError(error)
       next(
         new CustomError(
@@ -84,7 +85,7 @@ export class UserController {
 
       sendResponse(req, res, { message: 'Registro de sesión exitoso' }, 201, [
         {
-          name: 'user token',
+          name: 'user_token',
           value: token,
           options: {
             maxAge: 3 * 60 * 60 * 1000, // 3 horas
