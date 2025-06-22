@@ -9,6 +9,7 @@ export const UserMapper = {
       uid: raw.uid,
       name: raw.name,
       rut: raw.rut,
+      email: raw.email,
       password: raw.password,
       role: RoleMapper.toDomain(raw.role),
       evaluations: raw.evaluations?.map(EvaluationMapper.toDomain),
@@ -20,6 +21,7 @@ export const UserMapper = {
     user.uid = raw.uid
     user.name = raw.name
     user.rut = raw.rut
+    user.email = raw.email
     user.password = raw.password
     user.role = RoleMapper.toSchema(raw.role)
     user.evaluations = raw.evaluations?.map(EvaluationMapper.toSchema)

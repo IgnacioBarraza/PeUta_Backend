@@ -31,8 +31,24 @@ export class UserService {
     return user
   }
 
+  async getUserByEmail(email: string): Promise<UserEntity> {
+    const user = await this.userRepository.getUserByEmail(email)
+
+    if (!user)
+      throw new CustomError('User not found', 404, ['Usuario no encontrado'])
+
+    return user
+  }
+
   async register(user: Partial<UserEntity>): Promise<string> {
-    const existingUser = await this.userRepository.getUserByRut(user.rut!)
+    if (!user.email && !user.rut)
+      throw new CustomError('Rut or email not found', 400, [
+        'Rut or email not found',
+      ])
+
+    const existingUser = user.email
+      ? await this.userRepository.getUserByEmail(user.email!)
+      : await this.userRepository.getUserByRut(user.rut!)
 
     if (existingUser)
       throw new CustomError('User already registered', 400, [
@@ -48,13 +64,10 @@ export class UserService {
     const newUser = {
       ...user,
       password: hashPassword,
-      role: role ?? undefined,
+      role: role!,
     }
 
-    console.log(newUser)
-
     const createdUser = await this.userRepository.register(newUser)
-    console.log(createdUser)
 
     if (!createdUser)
       throw new CustomError('Error register user', 500, [
@@ -75,8 +88,10 @@ export class UserService {
     return token
   }
 
-  async login(rut: string, password: string): Promise<string> {
-    const user = await this.getUserByRut(rut)
+  async login(identifier: string, password: string): Promise<string> {
+    const user = identifier.includes('@')
+      ? await this.getUserByEmail(identifier)
+      : await this.getUserByRut(identifier)
     if (!user)
       throw new CustomError('User not found', 401, ['Usuario no encontrado'])
 
@@ -87,7 +102,7 @@ export class UserService {
       ])
 
     const token = jwt.sign(
-      { user: user.uid, rut: user.rut, role: user.role.name },
+      { user: user.uid, identifier: identifier, role: user.role.name },
       envConfig.jwtSecret as string,
       {
         expiresIn: '3h',

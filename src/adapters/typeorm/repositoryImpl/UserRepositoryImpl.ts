@@ -27,6 +27,20 @@ export class UserRepositoryImpl implements UserRepository {
     return user ? UserMapper.toDomain(user) : null
   }
 
+  async getUserByEmail(email: string): Promise<UserEntity | null> {
+    const user = await this.userRepo.findOne({
+      where: {
+        email: email,
+      },
+      relations: {
+        role: true,
+        evaluations: true,
+      },
+    })
+
+    return user ? UserMapper.toDomain(user) : null
+  }
+
   async getAllUsers(): Promise<UserEntity[] | []> {
     const users = await this.userRepo.find({
       relations: {
@@ -43,14 +57,23 @@ export class UserRepositoryImpl implements UserRepository {
     const newUser = this.userRepo.create(ormUserData)
     const savedUser = await this.userRepo.save(newUser)
 
-    const user = await this.getUserByRut(savedUser.rut)
+    const user = savedUser.email
+      ? await this.getUserByEmail(savedUser.email!)
+      : await this.getUserByRut(savedUser.rut!)
 
     return user ? UserMapper.toDomain(user) : null
   }
 
-  async login(rut: string, password: string): Promise<UserEntity | null> {
+  async login(
+    identifier: string,
+    password: string
+  ): Promise<UserEntity | null> {
+    const isEmail = identifier.includes('@')
+
     const user = await this.userRepo.findOne({
-      where: { rut: rut, password: password },
+      where: isEmail
+        ? { email: identifier, password: password }
+        : { rut: identifier, password: password },
       relations: {
         role: true,
         evaluations: true,

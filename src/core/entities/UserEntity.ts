@@ -4,7 +4,8 @@ import { RoleEntity } from './RoleEntity'
 export class UserEntity {
   uid: string
   name: string
-  rut: string
+  rut?: string
+  email?: string
   password: string
   role: RoleEntity
   evaluations?: EvaluationEntity[]
@@ -13,6 +14,7 @@ export class UserEntity {
     this.uid = data.uid
     this.name = data.name
     this.rut = data.rut
+    this.email = data.email
     this.password = data.password
     this.role = data.role
     this.evaluations = data.evaluations

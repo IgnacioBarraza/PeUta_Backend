@@ -16,8 +16,11 @@ export class User {
   @Column()
   name!: string
 
-  @Column({ unique: true })
-  rut!: string
+  @Column({ unique: true, nullable: true })
+  rut?: string
+
+  @Column({ unique: true, nullable: true })
+  email?: string
 
   @Column()
   password!: string

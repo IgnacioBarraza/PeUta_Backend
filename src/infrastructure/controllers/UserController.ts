@@ -47,10 +47,31 @@ export class UserController {
     }
   }
 
+  public getByEmail = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const { email } = req.params
+      const user = await this.userService.getUserByEmail(email)
+      sendResponse(req, res, user, 200)
+    } catch (error) {
+      const { message, errors } = sanitizeError(error)
+      next(
+        new CustomError(
+          message,
+          (error as CustomError).statusCode || 500,
+          errors
+        )
+      )
+    }
+  }
+
   public login = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { rut, password } = req.body
-      const token = await this.userService.login(rut, password)
+      const { identifier, password } = req.body
+      const token = await this.userService.login(identifier, password)
 
       sendResponse(req, res, { message: 'Inicio de sesión exitoso' }, 200, [
         {
