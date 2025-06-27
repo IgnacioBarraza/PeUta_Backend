@@ -1,19 +1,20 @@
-# 🌟 Science Fair Evaluation Platform  
+# 🌸 Hyōsei – Backend
 
-## 🚀 Project Overview  
+## 🚀 Project Overview
 
-A web platform designed to streamline the evaluation process for projects presented at the university's Science Fair. Evaluators can register, log in, and submit project evaluations digitally.  
+**Hyōsei** is a web platform crafted to streamline the organization, participation, and evaluation of university science fairs, expos, and academic project showcases. This backend provides a secure, scalable API for managing users, evaluations, projects, schedules, and more—powering both visitors and evaluators through a seamless experience.
 
-🔹 **Frontend:** React (possible migration to Angular)  
+🔹 **Frontend:** Angular (WIP)  
 🔹 **Backend:** Node.js with Express & TypeScript  
-🔹 **Database:** PostgreSQL (TypeORM)  
+🔹 **Database:** PostgreSQL + TypeORM  
 🔹 **Architecture:** Hexagonal (Ports & Adapters)  
-🔹 **Hosting:** Railway (free)  
-🔹 **Cache:** Redis  
+🔹 **Hosting:** Railway  
+🔹 **Cache:** Redis (Future implementation)  
+🔹 **Auth:** JWT + HttpOnly Cookies  
 
 ---
 
-## 📁 Project Structure  
+## 📁 Project Structure
 
 ```plaintext
 📂 src/
@@ -22,94 +23,115 @@ A web platform designed to streamline the evaluation process for projects presen
 │   ├── 📁 cache/                # Cache layer (Redis or in-memory LRU cache)
 │   └── 📁 typeorm/              # TypeORM specific implementations
 │       ├── 📁 repositoryImpl/   # Repository implementations for TypeORM
-│       ├── 📁 Mappers/          # Data mappers for entity and schema types
+│       ├── 📁 mappers/          # Data mappers for entity and schema types
 │       └── 📁 schema/           # TypeORM entities (DB schemas)
 │
 ├── 📁 core/                     # Business logic (pure, framework-independent)
 │   ├── 📁 entities/             # Domain entities
 │   ├── 📁 services/             # Application use cases
-│   ├── 📁 validations/          # Data validations schemas
+│   ├── 📁 validations/          # Zod validation schemas
 │   └── 📁 ports/                # Interfaces to connect logic to infrastructure
 │
 ├── 📁 infrastructure/           # Manages external tools and systems
 │   ├── 📁 config/               # Environment variables & global settings
-│   ├── 📁 controllers/          # Handles HTTP requests
-│   ├── 📁 middlewares/          # Data validation, auth, error handling
+│   ├── 📁 controllers/          # HTTP layer
+│   ├── 📁 middlewares/          # Validation, auth, error handling
 │   ├── 📁 orm/                  # TypeORM setup & migrations
-│   └── 📁 server/               # Server setup and routes initialization
-│       ├── 📁 routes/           # Routes setup
-│       └── server.ts            # Entry point for the server
+│   └── 📁 server/               # Server & route bootstrap
+│       ├── 📁 routes/           # Express routes
+│       └── server.ts            # App entry point
 │
 ├── 📁 tests/                    # Unit and integration tests
 │
-└── 📁 utils/                    # General utilities (e.g., helper functions)
-    └── utils.ts                 # Utility functions file
+└── 📁 utils/                    # General helper functions
 ```
 
 ---
 
-## 🛠️ Setup & Run  
+## 🛠️ Setup & Run
 
-1. **Clone the repository**  
+1. **Clone the repository**
+
    ```bash
-   git clone https://github.com/your-user/science-fair-platform.git
-   cd science-fair-platform
+   git clone https://github.com/your-user/hyosei-backend.git
+   cd hyosei-backend
    ```
 
-2. **Install dependencies**  
+2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
-3. **Set environment variables**  
-   Create a `.env` file in the root directory:  
+3. **Set environment variables**
+   Create a `.env` file in the root directory:
+
    ```env
    DB_HOST=localhost
    DB_PORT=5432
    DB_USERNAME=postgres
    DB_PASSWORD=your_password
-   DB_NAME=science_fair
+   DB_NAME=hyosei_db
    REDIS_URL=redis://localhost:6379
    PORT=3000
+   JWT_SECRET=super_secret_token
+   NODE_ENV=dev (by default)
    ```
 
-4. **Run the development server**  
+4. **Run the development server**
+
    ```bash
    npm run dev
    ```
 
 ---
 
-## 🔧 Migrations  
+## 🔧 Migrations (TypeORM)
 
-1. **Generate a new migration**  
+1. **Generate a new migration**
+
    ```bash
    npm run migration:generate -- src/infrastructure/orm/migrations/NameOfMigration
    ```
 
-2. **Run migrations**  
+2. **Run migrations**
+
    ```bash
    npm run migration:run
    ```
 
-3. **Revert the last migration**  
+3. **Revert the last migration**
+
    ```bash
    npm run migration:revert
    ```
 
 ---
 
-## 📚 Useful Documentation  
+## 🔐 Security
 
-- **Express:** [expressjs.com](https://expressjs.com/)  
-- **TypeScript:** [typescriptlang.org](https://www.typescriptlang.org/)  
-- **TypeORM:** [typeorm.io](https://typeorm.io/)  
-- **Redis:** [redis.io](https://redis.io/)  
+* Auth via JWT + HttpOnly cookies
+* Routes protected by role-based middleware
+* Passwords hashed with bcrypt
+* Validations with Zod (core/validations)
+* Tokens auto-expire and can be extended
 
 ---
 
-## ✨ Author  
+## 📚 Useful Documentation
 
-Project developed by **Nacho** 🎉, Computer Engineering student.  
+* [Express.js](https://expressjs.com/)
+* [TypeScript](https://www.typescriptlang.org/)
+* [TypeORM](https://typeorm.io/)
+* [Redis](https://redis.io/)
+* [Zod](https://zod.dev/)
 
-If you found this useful, leave a ⭐ on the repo!  
+---
+
+## ✨ Author
+
+Project developed and maintained by **Nacho** 👨‍💻 – Computer Engineering & Software developer 🇨🇱
+
+> “Hyōsei — because academic excellence deserves professional-grade tools.”
+
+☕ If this repo helped you, leave a ⭐ or contact me for custom academic event support ignacio.barraza.rioja@gmail.com.
