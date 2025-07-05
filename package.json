@@ -1,7 +1,7 @@
 {
-  "name": "peuta_backend",
-  "version": "0.0.1",
-  "description": "Backend for peuta",
+  "name": "hyosei_backend",
+  "version": "1.0.0",
+  "description": "Backend for Hyosei",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -24,14 +24,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/IgnacioBarraza/PeUta_Backend.git"
+    "url": "git+ssh://git@github.com/IgnacioBarraza/Hyosei_Backend.git"
   },
   "author": "IgnacioBarraza",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/IgnacioBarraza/PeUta_Backend/issues"
+    "url": "https://github.com/IgnacioBarraza/Hyosei_Backend/issues"
   },
-  "homepage": "https://github.com/IgnacioBarraza/PeUta_Backend#readme",
+  "homepage": "https://github.com/IgnacioBarraza/Hyosei_Backend#readme",
   "devDependencies": {
     "@types/cookie-parser": "^1.4.8",
     "@types/cors": "^2.8.17",

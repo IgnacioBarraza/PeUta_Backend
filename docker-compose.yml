@@ -3,7 +3,7 @@ version: "3"
 services:
   db:
     image: postgres:16
-    container_name: postgres_peuta
+    container_name: postgres_hyosei
     restart: always
     environment:
       POSTGRES_USER: ${POSTGRES_USER}

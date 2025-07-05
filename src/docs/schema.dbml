@@ -1,6 +1,6 @@
 // See the diagram in https://dbdiagram.io/d
 
-Project ProyectoEvaluacionFeria {
+Project Hyosei {
   database_type: "PostgreSQL"
 }
 
