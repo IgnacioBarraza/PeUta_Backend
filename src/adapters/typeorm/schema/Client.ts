@@ -1,9 +1,9 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
 export class Client {
   @PrimaryGeneratedColumn('uuid')
-  uid!: string
+  id!: string
 
   @Column()
   name!: string
@@ -11,9 +11,15 @@ export class Client {
   @Column({ unique: true })
   apiKey!: string
 
-  @Column({ type: 'jsonb', nullable: true })
-  config?: Record<string, any>
+  @Column()
+  contactEmail!: string
+
+  @Column()
+  logoUrl?: string
 
   @CreateDateColumn()
   createdAt!: Date
+
+  @UpdateDateColumn()
+  updatedAt!: Date
 }
