@@ -1,33 +1,40 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
-import { Evaluations } from './Evaluations'
-import { ProjectCategories } from './ProjectCategories'
+import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
+import { Category } from './Category'
+import { Event } from './Event'
+import { ProjectMember } from './ProjectMember'
 
 @Entity()
 export class Project {
   @PrimaryGeneratedColumn('uuid')
-  uid!: string
+  id!: string
 
   @Column()
-  projectName!: string
+  title!: string
 
   @Column()
   description!: string
 
-  @OneToMany(() => ProjectCategories, category => category.project)
-  category!: ProjectCategories
-
   @Column()
   imageUrl!: string
 
-  @Column({ type: 'float', default: 0, nullable: true })
-  averageScore?: number
+  @OneToMany(() => ProjectMember, (projectMember) => projectMember.project)
+  members!: ProjectMember[]
 
-  @Column({ type: 'jsonb', nullable: false, default: '[]' })
-  members!: {
-    name: string
-    lastName: string
-  }[]
+  @ManyToMany(() => Category, (category) => category.projects)
+  @JoinTable({
+    name: 'project_category',
+    joinColumn: { name: 'project_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'category_id', referencedColumnName: 'id' }
+  })
+  categories!: Category[]
 
-  @OneToMany(() => Evaluations, evaluations => evaluations.project)
-  evaluations!: Evaluations[]
+  @ManyToOne(() => Event, event => event.projects)
+  @JoinColumn({ name: 'event_id' })
+  event!: Event
+
+  @CreateDateColumn({ type: 'timestamp with time zone' })
+  created_at!: Date
+
+  @UpdateDateColumn({ type: 'timestamp with time zone' })
+  updated_at!: Date
 }

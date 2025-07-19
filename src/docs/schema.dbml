@@ -111,12 +111,6 @@ Table Category {
   event_id uuid [ref: > Event.id]
 }
 
-Table ProjectCategory {
-  project_id uuid [ref: > Project.id]
-  category_id uuid [ref: > Category.id]
-  Note: "Relación N:N entre proyectos y categorías"
-}
-
 Table EvaluationForm {
   id uuid [pk]
   name varchar

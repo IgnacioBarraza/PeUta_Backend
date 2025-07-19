@@ -8,6 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm'
 import { ClientStaff } from './ClientStaff'
+import { Event } from './Event'
 
 @Entity()
 export class Client {
@@ -27,15 +28,16 @@ export class Client {
   @Column({ nullable: true })
   logo_url?: string
 
-  @CreateDateColumn({ type: 'timestamptz' })
-  createdAt!: Date
-
-  @UpdateDateColumn({ type: 'timestamptz' })
-  updatedAt!: Date
-
+  
   @OneToMany(() => ClientStaff, staff => staff.client)
   staff!: ClientStaff[]
+  
+  @OneToMany(() => Event, event => event.client)
+  events!: Event[]
+  
+  @CreateDateColumn({ type: 'timestamp with time zone' })
+  created_at!: Date
 
-  // @OneToMany(() => Events, event => event.client)
-  // events: Events[]
+  @UpdateDateColumn({ type: 'timestamp with time zone' })
+  updated_at!: Date
 }
