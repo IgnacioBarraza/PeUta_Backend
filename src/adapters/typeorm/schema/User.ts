@@ -1,35 +1,39 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
+  Index,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm'
 import { Role } from './Role'
-import { Evaluations } from './Evaluations'
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn('uuid')
-  uid!: string
+  id!: string
 
   @Column()
   name!: string
 
-  @Column({ unique: true, nullable: true })
-  rut?: string
-
-  @Column({ unique: true, nullable: true })
+  @Index()
+  @Column({ nullable: true, unique: true })
   email?: string
+
+  @Index()
+  @Column({ nullable: true, unique: true, length: 12 })
+  rut?: string
 
   @Column()
   password!: string
 
-  @ManyToOne(() => Role)
-  role!: Role
+  @CreateDateColumn({ type: 'timestamptz' })
+  created_at!: Date
 
-  @OneToMany(() => Evaluations, evaluations => evaluations.user, {
-    nullable: true,
-  })
-  evaluations?: Evaluations[]
+  @UpdateDateColumn({ type: 'timestamptz' })
+  updated_at!: Date
+
+  @ManyToOne(() => Role, role => role.user)
+  role!: Role
 }

@@ -1,37 +1,41 @@
 import {
+  Entity,
+  PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  Unique,
   UpdateDateColumn,
+  ManyToOne,
+  Index,
 } from 'typeorm'
-import { User } from './User'
 import { Client } from './Client'
 import { Role } from './Role'
 
 @Entity()
-@Unique(['user', 'client'])
-export class ClientStaff {
+@Index(['email', 'client'])
+export class PendingClientStaff {
   @PrimaryGeneratedColumn('uuid')
   id!: string
 
-  @ManyToOne(() => User)
-  @JoinColumn({ name: 'user_id' })
-  user!: User
+  @Column({ unique: true })
+  email!: string
 
-  @ManyToOne(() => Client, client => client.staff)
-  @JoinColumn({ name: 'client_id' })
+  @ManyToOne(() => Client)
   client!: Client
 
   @ManyToOne(() => Role)
-  @JoinColumn({ name: 'role_id' })
   role!: Role
 
-  @Column()
+  @Column({ nullable: true })
   position!: string
+
+  @Column({ unique: true })
+  invite_token!: string
+
+  @Column({ default: 'pending' })
+  status!: 'pending' | 'accepted' | 'expired' | 'revoked'
+
+  @Column({ type: 'timestamptz' })
+  expires_at!: Date
 
   @CreateDateColumn({ type: 'timestamptz' })
   created_at!: Date

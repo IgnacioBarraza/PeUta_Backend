@@ -2,30 +2,40 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm'
+import { ClientStaff } from './ClientStaff'
 
 @Entity()
 export class Client {
   @PrimaryGeneratedColumn('uuid')
   id!: string
 
-  @Column()
+  @Column({ unique: true })
   name!: string
 
+  @Index()
   @Column({ unique: true })
-  apiKey!: string
+  api_key!: string
 
-  @Column()
-  contactEmail!: string
+  @Column({ nullable: false })
+  contact_email!: string
 
-  @Column()
-  logoUrl?: string
+  @Column({ nullable: true })
+  logo_url?: string
 
   @CreateDateColumn({ type: 'timestamptz' })
   createdAt!: Date
 
   @UpdateDateColumn({ type: 'timestamptz' })
   updatedAt!: Date
+
+  @OneToMany(() => ClientStaff, staff => staff.client)
+  staff!: ClientStaff[]
+
+  // @OneToMany(() => Events, event => event.client)
+  // events: Events[]
 }

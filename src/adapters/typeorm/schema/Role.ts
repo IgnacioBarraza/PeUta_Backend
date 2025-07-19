@@ -1,12 +1,23 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import { User } from './User'
+import { ClientStaff } from './ClientStaff'
 @Entity()
 export class Role {
   @PrimaryGeneratedColumn('uuid')
-  uid!: string
+  id!: string
 
   @Column()
   name!: string
 
-  @Column({ type: 'jsonb', nullable: false, default: '[]' })
-  permissions!: string[]
+  @Column()
+  label!: string
+
+  @Column('text')
+  description!: string
+
+  @OneToMany(() => User, user => user.role)
+  user!: User[]
+
+  @OneToMany(() => ClientStaff, staff => staff.role)
+  staffMembers!: ClientStaff[]
 }
