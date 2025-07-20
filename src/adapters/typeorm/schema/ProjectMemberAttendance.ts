@@ -17,11 +17,11 @@ export class ProjectMemberAttendance {
   })
   project_member!: ProjectMember
 
-  @Column({ default: 'pendiente' })
-  status!: 'presente' | 'ausente' | 'justificado' | 'pendiente'
+  @Column({ default: 'pending' })
+  status!: 'present' | 'absent' | 'justified' | 'pending'
 
   @Column({ type: 'text', nullable: true })
-  comment!: string
+  comment?: string
 
   @Column({ type: 'timestamp' })
   timestamp!: Date

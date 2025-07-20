@@ -1,24 +1,30 @@
-import { EvaluationEntity } from './EvaluationEntity'
-import { ProjectCategoryEntity } from './ProjectCategoriesEntity'
+import { CategoryEntity } from './CategoryEntity'
+import { EventEntity } from './EventEntity'
+import { ProjectEvaluationEntity } from './ProjectEvaluationEntity'
+import { ProjectMemberEntity } from './ProjectMemberEntity'
 
 export class ProjectEntity {
-  uid: string
-  projectName: string
+  id: string
+  title: string
   description: string
-  category: ProjectCategoryEntity
-  imageUrl: string
-  averageScore: number
-  members: { name: string; lastName: string }[]
-  evaluations: EvaluationEntity[]
+  image_url: string
+  members: ProjectMemberEntity[]
+  category: CategoryEntity
+  event: EventEntity
+  evaluations: ProjectEvaluationEntity[]
+  created_at: Date
+  updated_at: Date
 
   constructor(data: ProjectEntity) {
-    this.uid = data.uid
-    this.projectName = data.projectName
+    this.id = data.id
+    this.title = data.title
     this.description = data.description
     this.category = data.category
-    this.imageUrl = data.imageUrl
-    this.averageScore = data.averageScore
+    this.image_url = data.image_url
     this.members = data.members
+    this.event = data.event
     this.evaluations = data.evaluations
+    this.created_at = data.created_at
+    this.updated_at = data.updated_at
   }
 }

@@ -1,13 +1,15 @@
 import { UserEntity } from './UserEntity'
 
 export class RoleEntity {
-  uid: string
+  id: string
   name: string
-  permissions: string[]
+  description: string
+  label: string
 
   constructor(data: RoleEntity) {
-    this.uid = data.uid
+    this.id = data.id
     this.name = data.name
-    this.permissions = data.permissions
+    this.description = data.description
+    this.label = data.label
   }
 }

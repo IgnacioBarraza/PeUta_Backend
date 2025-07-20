@@ -1,22 +1,23 @@
-import { EvaluationEntity } from './EvaluationEntity'
 import { RoleEntity } from './RoleEntity'
 
 export class UserEntity {
-  uid: string
+  id: string
   name: string
-  rut?: string
   email?: string
+  rut?: string
   password: string
+  created_at: Date
+  updated_at: Date
   role: RoleEntity
-  evaluations?: EvaluationEntity[]
 
   constructor(data: UserEntity) {
-    this.uid = data.uid
+    this.id = data.id
     this.name = data.name
-    this.rut = data.rut
     this.email = data.email
+    this.rut = data.rut
     this.password = data.password
+    this.created_at = data.created_at
+    this.updated_at = data.updated_at
     this.role = data.role
-    this.evaluations = data.evaluations
   }
 }

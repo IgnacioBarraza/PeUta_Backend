@@ -3,8 +3,6 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
-  JoinTable,
-  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -27,18 +25,14 @@ export class Project {
   description!: string
 
   @Column()
-  imageUrl!: string
+  image_url!: string
 
   @OneToMany(() => ProjectMember, projectMember => projectMember.project)
   members!: ProjectMember[]
 
-  @ManyToMany(() => Category, category => category.projects)
-  @JoinTable({
-    name: 'project_category',
-    joinColumn: { name: 'project_id', referencedColumnName: 'id' },
-    inverseJoinColumn: { name: 'category_id', referencedColumnName: 'id' },
-  })
-  categories!: Category[]
+  @ManyToOne(() => Category, category => category.projects)
+  @JoinColumn({ name: 'category_id' })
+  category!: Category
 
   @ManyToOne(() => Event, event => event.projects)
   @JoinColumn({ name: 'event_id' })

@@ -1,6 +1,13 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm"
-import { Project } from "./Project"
-import { Event } from "./Event"
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm'
+import { Project } from './Project'
+import { Event } from './Event'
 
 @Entity()
 export class Category {
@@ -17,6 +24,6 @@ export class Category {
   @JoinColumn({ name: 'event_id' })
   event!: Event
 
-  @ManyToOne(() => Project, project => project.categories)
+  @OneToMany(() => Project, project => project.category)
   projects!: Project[]
 }

@@ -19,10 +19,15 @@ export class PendingClientStaff {
   @Column({ unique: true })
   email!: string
 
-  @ManyToOne(() => Client)
+  @ManyToOne(() => Client, client => client.pending_staff, {
+    onDelete: 'CASCADE',
+  })
   client!: Client
 
-  @ManyToOne(() => Role)
+  @ManyToOne(() => Role, role => role.pending_staff, {
+    onDelete: 'SET NULL',
+    nullable: true,
+  })
   role!: Role
 
   @Column({ nullable: true })

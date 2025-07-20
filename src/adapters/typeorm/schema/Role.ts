@@ -1,6 +1,7 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 import { User } from './User'
 import { ClientStaff } from './ClientStaff'
+import { PendingClientStaff } from './PendingClientStaff'
 @Entity()
 export class Role {
   @PrimaryGeneratedColumn('uuid')
@@ -20,4 +21,7 @@ export class Role {
 
   @OneToMany(() => ClientStaff, staff => staff.role)
   staffMembers!: ClientStaff[]
+
+  @OneToMany(() => PendingClientStaff, p => p.client)
+  pending_staff!: PendingClientStaff[]
 }

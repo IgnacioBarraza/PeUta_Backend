@@ -9,6 +9,7 @@ import {
 } from 'typeorm'
 import { ClientStaff } from './ClientStaff'
 import { Event } from './Event'
+import { PendingClientStaff } from './PendingClientStaff'
 
 @Entity()
 export class Client {
@@ -28,13 +29,15 @@ export class Client {
   @Column({ nullable: true })
   logo_url?: string
 
-  
   @OneToMany(() => ClientStaff, staff => staff.client)
   staff!: ClientStaff[]
-  
+
   @OneToMany(() => Event, event => event.client)
   events!: Event[]
-  
+
+  @OneToMany(() => PendingClientStaff, p => p.client)
+  pending_staff!: PendingClientStaff[]
+
   @CreateDateColumn({ type: 'timestamp with time zone' })
   created_at!: Date
 
