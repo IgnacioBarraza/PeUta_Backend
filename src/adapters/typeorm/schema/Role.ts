@@ -17,11 +17,11 @@ export class Role {
   description!: string
 
   @OneToMany(() => User, user => user.role)
-  user!: User[]
+  user?: User[]
 
   @OneToMany(() => ClientStaff, staff => staff.role)
-  staffMembers!: ClientStaff[]
+  staffMembers?: ClientStaff[]
 
   @OneToMany(() => PendingClientStaff, p => p.client)
-  pending_staff!: PendingClientStaff[]
+  pending_staff?: PendingClientStaff[]
 }

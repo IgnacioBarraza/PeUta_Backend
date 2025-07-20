@@ -1,5 +1,3 @@
-import { UserEntity } from './UserEntity'
-
 export class RoleEntity {
   id: string
   name: string

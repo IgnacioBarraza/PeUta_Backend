@@ -43,28 +43,14 @@ export class RoleService {
     uid: string,
     data: Partial<RoleEntity>
   ): Promise<RoleEntity> {
-    const { name, permissions } = data
+    const { name, description, label } = data
 
     const role = await this.getRoleById(uid)
 
-    if (!Array.isArray(permissions))
-      throw new CustomError('Permissions must be an array', 400, [
-        'Permisos debe ser un array',
-      ])
-
-    const updatedPermissions = [...role.permissions]
-
-    for (let i = 0; i < updatedPermissions.length; i++) {
-      if (updatedPermissions[i] === permissions[i]) {
-        updatedPermissions[i] = permissions[i]
-      } else {
-        updatedPermissions.push(permissions[i])
-      }
-    }
-
     const updatedRoleData = {
       name: name ?? role.name,
-      permissions: updatedPermissions,
+      description: description ?? role.description,
+      label: label ?? role.label,
     }
 
     const updatedRole = await this.roleRepository.updateRole(

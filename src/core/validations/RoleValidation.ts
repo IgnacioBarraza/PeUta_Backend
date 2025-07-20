@@ -1,8 +1,7 @@
-import { array, object, string } from "zod";
+import { object, string } from 'zod'
 
 export const RoleValidation = object({
-  name: string({ required_error: 'Role name is required'}),
-  permissions: array(string({
-    required_error: 'Role permissions are required'
-  }))
+  name: string({ required_error: 'Role name is required' }),
+  description: string({ required_error: 'Role description is required' }),
+  label: string({ required_error: 'Role label is required' }),
 })

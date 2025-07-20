@@ -1,4 +1,3 @@
-import { UserMapper } from '../../adapters/typeorm/Mappers/UserMapper'
 import { envConfig } from '../../infrastructure/config/env-config'
 import { CustomError } from '../../infrastructure/middlewares/errorHandler'
 import { UserEntity } from '../entities/UserEntity'
@@ -56,7 +55,7 @@ export class UserService {
       ])
 
     const role = user.role
-      ? await this.roleRepository.getRoleById(user.role.uid)
+      ? await this.roleRepository.getRoleById(user.role.id)
       : await this.roleRepository.getDefaultRole()
 
     const hashPassword = await bcrypt.hash(user.password!, saltRounds)
@@ -76,7 +75,7 @@ export class UserService {
 
     const token = jwt.sign(
       {
-        user: createdUser.uid,
+        user: createdUser.id,
         rut: createdUser.rut,
         role: createdUser.role.name,
       },
@@ -102,7 +101,7 @@ export class UserService {
       ])
 
     const token = jwt.sign(
-      { user: user.uid, identifier: identifier, role: user.role.name },
+      { user: user.id, identifier: identifier, role: user.role.name },
       envConfig.jwtSecret as string,
       {
         expiresIn: '3h',

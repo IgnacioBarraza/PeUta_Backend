@@ -16,6 +16,6 @@ export const userRouter = Router()
 
 userRouter.get('/', userController.getAllUsers)
 userRouter.post('/signup', userController.register)
-userRouter.get('/:rut', userController.getByRut)
-userRouter.get('/:email', userController.getByEmail)
+userRouter.get('/rut/:rut', userController.getByRut)
+userRouter.get('/email/:email', userController.getByEmail)
 userRouter.post('/login', userController.login)

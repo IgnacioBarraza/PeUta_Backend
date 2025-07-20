@@ -19,9 +19,9 @@ export class RoleRepositoryImpl implements RoleRepository {
     return roles.map(r => new RoleEntity(r))
   }
 
-  async getRoleById(uid: string): Promise<RoleEntity | null> {
+  async getRoleById(id: string): Promise<RoleEntity | null> {
     const role = await this.roleRepo.findOne({
-      where: { uid: uid },
+      where: { id: id },
     })
 
     return role ? RoleMapper.toDomain(role) : null

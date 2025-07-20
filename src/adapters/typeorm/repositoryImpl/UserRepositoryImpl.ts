@@ -20,7 +20,6 @@ export class UserRepositoryImpl implements UserRepository {
       },
       relations: {
         role: true,
-        evaluations: true,
       },
     })
 
@@ -34,7 +33,6 @@ export class UserRepositoryImpl implements UserRepository {
       },
       relations: {
         role: true,
-        evaluations: true,
       },
     })
 
@@ -45,7 +43,6 @@ export class UserRepositoryImpl implements UserRepository {
     const users = await this.userRepo.find({
       relations: {
         role: true,
-        evaluations: true,
       },
     })
 
@@ -76,7 +73,6 @@ export class UserRepositoryImpl implements UserRepository {
         : { rut: identifier, password: password },
       relations: {
         role: true,
-        evaluations: true,
       },
     })
 
