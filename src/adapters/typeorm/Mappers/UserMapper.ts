@@ -1,30 +1,31 @@
 import { UserEntity } from '../../../core/entities/UserEntity'
 import { User } from '../schema/User'
-import { EvaluationMapper } from './EvaluationMapper'
 import { RoleMapper } from './RoleMappers'
 
 export const UserMapper = {
   toDomain(raw: User): UserEntity {
     return new UserEntity({
-      uid: raw.uid,
+      id: raw.id,
       name: raw.name,
       rut: raw.rut,
       email: raw.email,
       password: raw.password,
+      created_at: raw.created_at,
+      updated_at: raw.updated_at,
       role: RoleMapper.toDomain(raw.role),
-      evaluations: raw.evaluations?.map(EvaluationMapper.toDomain),
     })
   },
 
   toSchema(raw: UserEntity): User {
     const user = new User()
-    user.uid = raw.uid
+    user.id = raw.id
     user.name = raw.name
     user.rut = raw.rut
     user.email = raw.email
     user.password = raw.password
+    user.created_at = raw.created_at
+    user.updated_at = raw.updated_at
     user.role = RoleMapper.toSchema(raw.role)
-    user.evaluations = raw.evaluations?.map(EvaluationMapper.toSchema)
     return user
   },
 }

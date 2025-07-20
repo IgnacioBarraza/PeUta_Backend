@@ -4,17 +4,19 @@ import { RoleEntity } from '../../../core/entities/RoleEntity'
 export const RoleMapper = {
   toDomain(role: Role): RoleEntity {
     return new RoleEntity({
-      uid: role.uid,
+      id: role.id,
       name: role.name,
-      permissions: role.permissions,
+      description: role.description,
+      label: role.label,
     })
   },
 
   toSchema(entity: RoleEntity): Role {
     const role = new Role()
-    role.uid = entity.uid
+    role.id = entity.id
     role.name = entity.name
-    role.permissions = entity.permissions
+    role.description = entity.description
+    role.label = entity.label
     return role
   },
 }
