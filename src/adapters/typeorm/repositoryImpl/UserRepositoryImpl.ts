@@ -78,4 +78,8 @@ export class UserRepositoryImpl implements UserRepository {
 
     return user ? UserMapper.toDomain(user) : null
   }
+
+  async deleteUser(id: string): Promise<void> {
+    await this.userRepo.delete(id)
+  }
 }

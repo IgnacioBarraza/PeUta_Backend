@@ -5,6 +5,7 @@ import { UserRepository } from '../ports/UserRepository'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { RoleRepository } from '../ports/RoleRepository'
+import { validateRut, normalizeRut } from '../../utils/authUtils'
 const saltRounds = 12
 
 export class UserService {
@@ -39,20 +40,42 @@ export class UserService {
     return user
   }
 
+  async registerByRut(user: Partial<UserEntity>): Promise<string> {
+    if (!user.rut) {
+      throw new CustomError('RUT requerido', 400, ['RUT requerido'])
+    }
+
+    const formattedRut = normalizeRut(user.rut)
+
+    if (!validateRut(formattedRut)) {
+      throw new CustomError('RUT inválido', 400, ['RUT inválido'])
+    }
+
+    return formattedRut
+  }
+
   async register(user: Partial<UserEntity>): Promise<string> {
-    if (!user.email && !user.rut)
+    if (!user.email && !user.rut) {
       throw new CustomError('Rut or email not found', 400, [
         'Rut or email not found',
       ])
+    }
 
-    const existingUser = user.email
-      ? await this.userRepository.getUserByEmail(user.email!)
-      : await this.userRepository.getUserByRut(user.rut!)
+    let existingUser: UserEntity | null = null
+    let normalizedRut: string | undefined = undefined
 
-    if (existingUser)
+    if (user.email) {
+      existingUser = await this.userRepository.getUserByEmail(user.email)
+    } else if (user.rut) {
+      normalizedRut = await this.registerByRut(user)
+      existingUser = await this.userRepository.getUserByRut(normalizedRut)
+    }
+
+    if (existingUser) {
       throw new CustomError('User already registered', 400, [
         'Usuario ya registrado',
       ])
+    }
 
     const role = user.role
       ? await this.roleRepository.getRoleById(user.role.id)
@@ -60,18 +83,20 @@ export class UserService {
 
     const hashPassword = await bcrypt.hash(user.password!, saltRounds)
 
-    const newUser = {
+    const newUser: Partial<UserEntity> = {
       ...user,
       password: hashPassword,
       role: role!,
+      rut: normalizedRut,
     }
 
     const createdUser = await this.userRepository.register(newUser)
 
-    if (!createdUser)
+    if (!createdUser) {
       throw new CustomError('Error register user', 500, [
         'Error al registrar usuario',
       ])
+    }
 
     const token = jwt.sign(
       {
@@ -84,6 +109,7 @@ export class UserService {
         expiresIn: '3h',
       }
     )
+
     return token
   }
 
@@ -109,5 +135,9 @@ export class UserService {
     )
 
     return token
+  }
+
+  async deleteUser(id: string): Promise<void> {
+    await this.userRepository.deleteUser(id)
   }
 }

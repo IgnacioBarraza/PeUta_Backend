@@ -6,4 +6,5 @@ export interface UserRepository {
   getUserByEmail(email: string): Promise<UserEntity | null>
   register(userData: Partial<UserEntity>): Promise<UserEntity | null>
   login(identifier: string, password: string): Promise<UserEntity | null>
+  deleteUser(id: string): Promise<void>
 }

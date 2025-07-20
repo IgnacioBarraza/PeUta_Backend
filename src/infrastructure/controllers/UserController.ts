@@ -125,4 +125,25 @@ export class UserController {
       )
     }
   }
+
+  public deleteUser = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> => {
+    const { id } = req.params
+    try {
+      await this.userService.deleteUser(id)
+      sendResponse(req, res, 'User borrado con exito!', 204)
+    } catch (error) {
+      const { message, errors } = sanitizeError(error)
+      next(
+        new CustomError(
+          message,
+          (error as CustomError).statusCode || 500,
+          errors
+        )
+      )
+    }
+  }
 }
