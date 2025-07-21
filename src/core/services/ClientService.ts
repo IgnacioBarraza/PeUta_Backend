@@ -2,9 +2,7 @@ import { CustomError } from '../../infrastructure/middlewares/errorHandler'
 import { generateApiKey } from '../../utils/apikeyUtils'
 import { normalizeName } from '../../utils/utils'
 import { ClientEntity } from '../entities/ClientEntity'
-import { ClientStaffEntity } from '../entities/ClientStaffEntity'
 import { ClientRepository } from '../ports/ClientRepository'
-import { ClientStaffSchema } from '../validations/ClientStaffValidation'
 import {
   ClientCreateSchema,
   ClientUpdateSchema,

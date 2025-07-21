@@ -1,11 +1,43 @@
-import { object, string, date } from 'zod'
+import { object, string, date, array, optional } from 'zod'
 
 export const EventSchema = object({
   id: string(),
-  client_id: string(),
   name: string(),
-  date: date(),
+  sub_title: string().optional(),
+  description: string(),
+  date_start: date(),
+  date_end: date(),
   location: string(),
+  banner_url: string(),
+  client_id: string(),
   created_at: date(),
   updated_at: date(),
+
+  // Relaciones opcionales (puedes definir esquemas separados si los necesitas validados)
+  projects: optional(array(object({ id: string() }))), // placeholder
+  categories: optional(array(object({ id: string() }))),
+  forms: optional(array(object({ id: string() }))),
+  reviewers: optional(array(object({ id: string() }))),
+  attendance_sessions: optional(array(object({ id: string() }))),
+})
+
+export const CreateEventSchema = object({
+  name: string().min(1).max(80),
+  sub_title: string().max(200).optional(),
+  description: string().min(1),
+  date_start: date(),
+  date_end: date(),
+  location: string().min(1),
+  banner_url: string().url(),
+  client_id: string().uuid(),
+})
+
+export const UpdateEventSchema = object({
+  name: string().min(1).max(80).optional(),
+  sub_title: string().max(200).optional(),
+  description: string().min(1).optional(),
+  date_start: date().optional(),
+  date_end: date().optional(),
+  location: string().min(1).optional(),
+  banner_url: string().url().optional(),
 })

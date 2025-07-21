@@ -8,6 +8,7 @@ import { ProjectEntity } from './ProjectEntity'
 export class EventEntity {
   id: string
   name: string
+  sub_title?: string
   description: string
   date_start: Date
   date_end: Date
@@ -27,6 +28,7 @@ export class EventEntity {
   constructor(data: EventEntity) {
     this.id = data.id
     this.name = data.name
+    this.sub_title = data.sub_title || ''
     this.description = data.description
     this.date_start = data.date_start
     this.date_end = data.date_end

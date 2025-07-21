@@ -24,6 +24,9 @@ export class Event {
   @Column({ unique: true })
   name!: string
 
+  @Column({ nullable: true })
+  sub_title?: string
+
   @Column()
   description!: string
 
@@ -44,20 +47,24 @@ export class Event {
   @Index()
   client!: Client
 
-  @OneToMany(() => Project, project => project.event)
-  projects!: Project[]
+  @OneToMany(() => Project, project => project.event, { nullable: true })
+  projects?: Project[]
 
-  @OneToMany(() => Category, category => category.event)
-  categories!: Category[]
+  @OneToMany(() => Category, category => category.event, { nullable: true })
+  categories?: Category[]
 
-  @OneToMany(() => EvaluationForm, form => form.event)
-  forms!: EvaluationForm[]
+  @OneToMany(() => EvaluationForm, form => form.event, { nullable: true })
+  forms?: EvaluationForm[]
 
-  @OneToMany(() => EvaluationReviewer, reviewer => reviewer.event)
-  reviewers!: EvaluationReviewer[]
+  @OneToMany(() => EvaluationReviewer, reviewer => reviewer.event, {
+    nullable: true,
+  })
+  reviewers?: EvaluationReviewer[]
 
-  @OneToMany(() => AttendanceSession, attendance => attendance.event)
-  attendance_sessions!: AttendanceSession[]
+  @OneToMany(() => AttendanceSession, attendance => attendance.event, {
+    nullable: true,
+  })
+  attendance_sessions?: AttendanceSession[]
 
   @CreateDateColumn({ type: 'timestamp with time zone' })
   created_at!: Date
