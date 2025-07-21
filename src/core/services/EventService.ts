@@ -63,5 +63,13 @@ export class EventService {
     const parsedData = UpdateEventSchema.strict().safeParse(event)
     if (!parsedData.success)
       throw new CustomError('Invalid event data', 400, parsedData.error)
+
+    const data = parsedData.data
+
+    const updated = await this.eventRepository.updateEvent(id, data)
+    if (!updated)
+      throw new CustomError('Event not updated', 500, ['Event not updated'])
+
+    return updated
   }
 }
