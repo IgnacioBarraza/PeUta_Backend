@@ -29,14 +29,14 @@ export class Client {
   @Column({ nullable: true })
   logo_url?: string
 
-  @OneToMany(() => ClientStaff, staff => staff.client)
-  staff!: ClientStaff[]
+  @OneToMany(() => ClientStaff, staff => staff.client, { nullable: true })
+  staff?: ClientStaff[]
 
-  @OneToMany(() => Event, event => event.client)
-  events!: Event[]
+  @OneToMany(() => Event, event => event.client, { nullable: true })
+  events?: Event[]
 
-  @OneToMany(() => PendingClientStaff, p => p.client)
-  pending_staff!: PendingClientStaff[]
+  @OneToMany(() => PendingClientStaff, p => p.client, { nullable: true })
+  pending_staff?: PendingClientStaff[]
 
   @CreateDateColumn({ type: 'timestamp with time zone' })
   created_at!: Date

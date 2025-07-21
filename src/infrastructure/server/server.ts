@@ -8,6 +8,7 @@ import cookieParser from 'cookie-parser'
 import { userRouter } from './routes/UserRouter'
 import { CustomError, errorHandler } from '../middlewares/errorHandler'
 import { roleRouter } from './routes/RoleRouter'
+import { clientRouter } from './routes/ClientRouter'
 
 const app = express()
 
@@ -26,6 +27,7 @@ app.use(cookieParser())
 
 app.use('/api/users', userRouter)
 app.use('/api/roles', roleRouter)
+app.use('/api/clients', clientRouter)
 
 app.use('/healthy', (req: Request, res: Response) => {
   sendResponse(req, res, 'OK', 200)

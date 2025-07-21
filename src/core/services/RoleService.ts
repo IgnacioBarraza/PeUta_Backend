@@ -26,7 +26,7 @@ export class RoleService {
     const parsedData = RoleValidation.safeParse(role)
 
     if (!parsedData.success)
-      throw new CustomError('Invalid form', 400, parsedData.error)
+      throw new CustomError('Invalid data', 400, parsedData.error)
     const data = parsedData.data
 
     const newRole = await this.roleRepository.createRole(data)

@@ -66,3 +66,7 @@ export const sanitizeError = (
 
   return { message: errorMessage, errors: sanitizedErrors }
 }
+
+export function normalizeName(name: string): string {
+  return name.trim().toLowerCase()
+}

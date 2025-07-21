@@ -50,8 +50,9 @@ export class UserRepositoryImpl implements UserRepository {
   }
 
   async register(userData: Partial<UserEntity>): Promise<UserEntity | null> {
-    const ormUserData = UserMapper.toSchema(userData as UserEntity)
-    const newUser = this.userRepo.create(ormUserData)
+    const newUser = this.userRepo.create(
+      UserMapper.toSchema(userData as UserEntity)
+    )
     const savedUser = await this.userRepo.save(newUser)
 
     const user = savedUser.email
