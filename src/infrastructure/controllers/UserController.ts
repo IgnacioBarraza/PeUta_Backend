@@ -83,7 +83,6 @@ export class UserController {
         },
       ])
     } catch (error) {
-      console.error(error)
       const { message, errors } = sanitizeError(error)
       next(
         new CustomError(
@@ -114,7 +113,6 @@ export class UserController {
         },
       ])
     } catch (error) {
-      console.error(error)
       const { message, errors } = sanitizeError(error)
       next(
         new CustomError(
