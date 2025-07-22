@@ -2,7 +2,10 @@ import { CustomError } from '../../infrastructure/middlewares/errorHandler'
 import { CategoryEntity } from '../entities/CategoryEntity'
 import { CategoryRepository } from '../ports/CategoryRepository'
 import { EventRepository } from '../ports/EventRepository'
-import { CreateCategorySchema, UpdateCategorySchema } from '../validations/CategoryValidation'
+import {
+  CreateCategorySchema,
+  UpdateCategorySchema,
+} from '../validations/CategoryValidation'
 
 export class CategoryService {
   constructor(
@@ -44,45 +47,62 @@ export class CategoryService {
     category: Partial<CategoryEntity>
   ): Promise<CategoryEntity> {
     const parsedData = CreateCategorySchema.strict().safeParse(category)
-    if (!parsedData.success) 
+    if (!parsedData.success)
       throw new CustomError('Invalid data', 400, parsedData.error.errors)
-    
+
     const data = parsedData.data
 
-    const event = await this.eventRepository.getEventByIdAndApikey(data.event_id, api_key)
+    const event = await this.eventRepository.getEventByIdAndApikey(
+      data.event_id,
+      api_key
+    )
     if (!event)
       throw new CustomError('Event not found', 404, ['Event not found'])
 
-    const newCategory = await this.categoryRepository.createCategory(api_key, {
+    const newCategory = await this.categoryRepository.createCategory({
       ...data,
-      event: event
+      event: event,
     })
 
     if (!newCategory)
-      throw new CustomError('Category not created', 500, ['Category not created'])
-    
+      throw new CustomError('Category not created', 500, [
+        'Category not created',
+      ])
+
     return newCategory
   }
 
-  async updateCategory(api_key: string, id: string, category: Partial<CategoryEntity>): Promise<CategoryEntity> {
+  async updateCategory(
+    api_key: string,
+    id: string,
+    category: Partial<CategoryEntity>
+  ): Promise<CategoryEntity> {
     const parsedData = UpdateCategorySchema.strict().safeParse(category)
     if (!parsedData.success)
       throw new CustomError('Invalid data', 400, parsedData.error)
-    
+
     const data = parsedData.data
-    
-    const updatedCategory = await this.categoryRepository.updateCategory(api_key, id, data)
+
+    const updatedCategory = await this.categoryRepository.updateCategory(
+      api_key,
+      id,
+      data
+    )
     if (!updatedCategory)
-      throw new CustomError('Category not updated', 500, ['Category not updated'])
-    
+      throw new CustomError('Category not updated', 500, [
+        'Category not updated',
+      ])
+
     return updatedCategory
   }
 
   async deleteCategory(api_key: string, id: string): Promise<boolean> {
     const deleted = await this.categoryRepository.deleteCategory(api_key, id)
 
-    if(!deleted)
-      throw new CustomError('Category not deleted', 500, ['Category not deleted'])
+    if (!deleted)
+      throw new CustomError('Category not deleted', 500, [
+        'Category not deleted',
+      ])
 
     return deleted
   }

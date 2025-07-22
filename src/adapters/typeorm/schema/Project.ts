@@ -27,8 +27,10 @@ export class Project {
   @Column()
   image_url!: string
 
-  @OneToMany(() => ProjectMember, projectMember => projectMember.project)
-  members!: ProjectMember[]
+  @OneToMany(() => ProjectMember, projectMember => projectMember.project, {
+    nullable: true,
+  })
+  members?: ProjectMember[]
 
   @ManyToOne(() => Category, category => category.projects)
   @JoinColumn({ name: 'category_id' })
@@ -39,7 +41,7 @@ export class Project {
   event!: Event
 
   @OneToMany(() => ProjectEvaluation, evaluation => evaluation.project)
-  evaluations!: ProjectEvaluation[]
+  evaluations?: ProjectEvaluation[]
 
   @CreateDateColumn({ type: 'timestamp with time zone' })
   created_at!: Date

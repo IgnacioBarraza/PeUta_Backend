@@ -9,7 +9,6 @@ import { EventRepositoryImpl } from '../../../adapters/typeorm/repositoryImpl/Ev
 import { ClientRepository } from '../../../core/ports/ClientRepository'
 import { EventRepository } from '../../../core/ports/EventRepository'
 import { ClientService } from '../../../core/services/ClientService'
-import { EventService } from '../../../core/services/EventService'
 import { validateApiKEy } from '../../middlewares/validateApiKey'
 
 const clientRepository: ClientRepository = new ClientRepositoryImpl(
@@ -21,10 +20,8 @@ const eventRepository: EventRepository = new EventRepositoryImpl(
   AppDataSource,
   clientService
 )
-const eventService = new EventService(eventRepository, clientRepository)
 const categoryRepository: CategoryRepository = new CategoryRepositoryImpl(
-  AppDataSource,
-  eventService
+  AppDataSource
 )
 
 const categoryService = new CategoryService(categoryRepository, eventRepository)

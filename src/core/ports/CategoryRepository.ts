@@ -7,10 +7,7 @@ export interface CategoryRepository {
     api_key: string,
     eventId: string
   ): Promise<CategoryEntity[]>
-  createCategory(
-    api_key: string,
-    category: Partial<CategoryEntity>
-  ): Promise<CategoryEntity>
+  createCategory(category: Partial<CategoryEntity>): Promise<CategoryEntity>
   updateCategory(
     api_key: string,
     id: string,

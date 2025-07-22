@@ -59,8 +59,8 @@ export class ProjectService {
     const data = parsedData.data
 
     const category = await this.categoryRepository.getCategoryById(
-      data.category_id,
-      api_key
+      api_key,
+      data.category_id
     )
     if (!category)
       throw new CustomError('Category not found', 404, ['Category not found'])

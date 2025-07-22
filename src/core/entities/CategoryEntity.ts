@@ -5,7 +5,7 @@ export class CategoryEntity {
   id: string
   name: string
   description: string
-  event: EventEntity
+  event?: EventEntity
   projects?: ProjectEntity[]
 
   constructor(data: CategoryEntity) {

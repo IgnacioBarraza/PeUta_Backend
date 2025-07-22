@@ -9,7 +9,7 @@ export const CategoryMapper = {
       id: raw.id,
       name: raw.name,
       description: raw.description,
-      event: EventMapper.toDomain(raw.event),
+      event: raw.event ? EventMapper.toDomain(raw.event) : undefined,
       projects: raw.projects?.map(ProjectMapper.toDomain) ?? [],
     })
   },
@@ -18,7 +18,7 @@ export const CategoryMapper = {
     category.id = raw.id
     category.name = raw.name
     category.description = raw.description
-    category.event = EventMapper.toSchema(raw.event)
+    category.event = raw.event ? EventMapper.toSchema(raw.event) : undefined
     category.projects = raw.projects?.map(ProjectMapper.toSchema) ?? []
     return category
   },

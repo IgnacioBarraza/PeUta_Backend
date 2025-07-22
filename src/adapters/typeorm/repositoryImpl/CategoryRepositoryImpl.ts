@@ -8,12 +8,10 @@ import { EventService } from '../../../core/services/EventService'
 export class CategoryRepositoryImpl implements CategoryRepository {
   private db: DataSource
   private categoryRepository: Repository<Category>
-  private eventService: EventService
 
-  constructor(db: DataSource, eventService: EventService) {
+  constructor(db: DataSource) {
     this.db = db
-    this.categoryRepository = db.getRepository(Category)
-    this.eventService = eventService
+    this.categoryRepository = this.db.getRepository(Category)
   }
 
   async getAllCategories(api_key: string): Promise<CategoryEntity[]> {
@@ -23,12 +21,6 @@ export class CategoryRepositoryImpl implements CategoryRepository {
           client: {
             api_key: api_key,
           },
-        },
-      },
-      relations: {
-        projects: true,
-        event: {
-          client: true,
         },
       },
     })
@@ -47,12 +39,6 @@ export class CategoryRepositoryImpl implements CategoryRepository {
           client: {
             api_key: api_key,
           },
-        },
-      },
-      relations: {
-        projects: true,
-        event: {
-          client: true,
         },
       },
     })
@@ -84,19 +70,8 @@ export class CategoryRepositoryImpl implements CategoryRepository {
     return categories.map(c => CategoryMapper.toDomain(c))
   }
 
-  async createCategory(
-    api_key: string,
-    category: CategoryEntity
-  ): Promise<CategoryEntity> {
-    const event = await this.eventService.getEventByIdAndApikey(
-      category.event.id,
-      api_key
-    )
-
-    const newCategory = this.categoryRepository.create({
-      ...category,
-      event: event,
-    })
+  async createCategory(category: CategoryEntity): Promise<CategoryEntity> {
+    const newCategory = this.categoryRepository.create(category)
 
     const savedCategory = await this.categoryRepository.save(newCategory)
 

@@ -8,10 +8,10 @@ export class ProjectEntity {
   title: string
   description: string
   image_url: string
-  members: ProjectMemberEntity[]
+  members?: ProjectMemberEntity[]
   category: CategoryEntity
   event: EventEntity
-  evaluations: ProjectEvaluationEntity[]
+  evaluations?: ProjectEvaluationEntity[]
   created_at: Date
   updated_at: Date
 
@@ -21,9 +21,9 @@ export class ProjectEntity {
     this.description = data.description
     this.category = data.category
     this.image_url = data.image_url
-    this.members = data.members
+    this.members = data.members ?? []
     this.event = data.event
-    this.evaluations = data.evaluations
+    this.evaluations = data.evaluations ?? []
     this.created_at = data.created_at
     this.updated_at = data.updated_at
   }

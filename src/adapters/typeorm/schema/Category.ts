@@ -22,7 +22,7 @@ export class Category {
 
   @ManyToOne(() => Event, event => event.categories)
   @JoinColumn({ name: 'event_id' })
-  event!: Event
+  event?: Event
 
   @OneToMany(() => Project, project => project.category)
   projects!: Project[]

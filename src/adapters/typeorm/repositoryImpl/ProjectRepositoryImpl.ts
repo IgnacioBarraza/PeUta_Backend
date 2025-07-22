@@ -3,17 +3,14 @@ import { ProjectRepository } from '../../../core/ports/ProjectRepository'
 import { Project } from '../schema/Project'
 import { ProjectEntity } from '../../../core/entities/ProjectEntity'
 import { ProjectMapper } from '../Mappers/ProjectMapper'
-import { EventService } from '../../../core/services/EventService'
 
 export class ProjectRepositoryImpl implements ProjectRepository {
   private db: DataSource
   private projectRepository: Repository<Project>
-  private eventService: EventService
 
-  constructor(db: DataSource, eventService: EventService) {
+  constructor(db: DataSource) {
     this.db = db
     this.projectRepository = this.db.getRepository(Project)
-    this.eventService = eventService
   }
 
   async getAllProjects(api_key: string): Promise<ProjectEntity[]> {
@@ -90,19 +87,8 @@ export class ProjectRepositoryImpl implements ProjectRepository {
     return projects.map(project => ProjectMapper.toDomain(project))
   }
 
-  async createProject(
-    project: Partial<ProjectEntity>,
-    api_key: string
-  ): Promise<ProjectEntity> {
-    const event = await this.eventService.getEventByIdAndApikey(
-      project.event.id!,
-      api_key
-    )
-
-    const newProject = this.projectRepository.create({
-      ...project,
-      event: event,
-    })
+  async createProject(project: Partial<ProjectEntity>): Promise<ProjectEntity> {
+    const newProject = this.projectRepository.create(project)
 
     const savedProject = await this.projectRepository.save(newProject)
 
