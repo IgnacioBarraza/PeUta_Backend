@@ -10,7 +10,7 @@ export const CategoryMapper = {
       name: raw.name,
       description: raw.description,
       event: EventMapper.toDomain(raw.event),
-      projects: raw.projects.map(ProjectMapper.toDomain)
+      projects: raw.projects?.map(ProjectMapper.toDomain) ?? [],
     })
   },
   toSchema(raw: CategoryEntity): Category {
@@ -19,7 +19,7 @@ export const CategoryMapper = {
     category.name = raw.name
     category.description = raw.description
     category.event = EventMapper.toSchema(raw.event)
-    category.projects = raw.projects.map(ProjectMapper.toSchema)
+    category.projects = raw.projects?.map(ProjectMapper.toSchema) ?? []
     return category
   },
 }

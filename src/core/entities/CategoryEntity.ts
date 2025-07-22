@@ -6,13 +6,13 @@ export class CategoryEntity {
   name: string
   description: string
   event: EventEntity
-  projects: ProjectEntity[]
+  projects?: ProjectEntity[]
 
   constructor(data: CategoryEntity) {
     this.id = data.id
     this.name = data.name
     this.description = data.description
     this.event = data.event
-    this.projects = data.projects
+    this.projects = data.projects ?? []
   }
 }

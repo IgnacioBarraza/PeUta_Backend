@@ -27,6 +27,9 @@ export class CategoryRepositoryImpl implements CategoryRepository {
       },
       relations: {
         projects: true,
+        event: {
+          client: true,
+        },
       },
     })
 
@@ -48,6 +51,9 @@ export class CategoryRepositoryImpl implements CategoryRepository {
       },
       relations: {
         projects: true,
+        event: {
+          client: true,
+        },
       },
     })
 
@@ -69,6 +75,9 @@ export class CategoryRepositoryImpl implements CategoryRepository {
       },
       relations: {
         projects: true,
+        event: {
+          client: true,
+        },
       },
     })
 
@@ -80,8 +89,8 @@ export class CategoryRepositoryImpl implements CategoryRepository {
     category: CategoryEntity
   ): Promise<CategoryEntity> {
     const event = await this.eventService.getEventByIdAndApikey(
-      api_key,
-      category.event.id
+      category.event.id,
+      api_key
     )
 
     const newCategory = this.categoryRepository.create({
@@ -118,15 +127,21 @@ export class CategoryRepositoryImpl implements CategoryRepository {
   }
 
   async deleteCategory(api_key: string, id: string): Promise<boolean> {
-    const result = await this.categoryRepository.delete({
-      id: id,
-      event: {
-        client: {
-          api_key: api_key,
+    const event = await this.categoryRepository.findOne({
+      where: {
+        id: id,
+        event: {
+          client: {
+            api_key: api_key,
+          },
         },
       },
     })
 
-    return result.affected !== 0
+    if (!event) return false
+
+    await this.categoryRepository.delete(id)
+
+    return true
   }
 }

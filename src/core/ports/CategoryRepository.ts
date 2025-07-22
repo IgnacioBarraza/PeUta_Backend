@@ -9,12 +9,12 @@ export interface CategoryRepository {
   ): Promise<CategoryEntity[]>
   createCategory(
     api_key: string,
-    category: CategoryEntity
+    category: Partial<CategoryEntity>
   ): Promise<CategoryEntity>
   updateCategory(
     api_key: string,
     id: string,
-    category: CategoryEntity
+    category: Partial<CategoryEntity>
   ): Promise<CategoryEntity | null>
   deleteCategory(api_key: string, id: string): Promise<boolean>
 }

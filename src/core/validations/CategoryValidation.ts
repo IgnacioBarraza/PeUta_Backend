@@ -11,7 +11,3 @@ export const UpdateCategorySchema = object({
   description: string().min(5).max(500).optional(),
   event_id: string().uuid().optional(),
 })
-  .partial()
-  .refine(data => Object.keys(data).length > 0, {
-    message: 'At least one field must be provided for update.',
-  })

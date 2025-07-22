@@ -10,6 +10,8 @@ import { CustomError, errorHandler } from '../middlewares/errorHandler'
 import { roleRouter } from './routes/RoleRouter'
 import { clientRouter } from './routes/ClientRouter'
 import { eventRouter } from './routes/EventRouter'
+import { projectRouter } from './routes/ProjectRouter'
+import { categoryRouter } from './routes/CategoryRouter'
 
 const app = express()
 
@@ -30,6 +32,8 @@ app.use('/api/users', userRouter)
 app.use('/api/roles', roleRouter)
 app.use('/api/clients', clientRouter)
 app.use('/api/events', eventRouter)
+app.use('/api/projects', projectRouter)
+app.use('/api/categories', categoryRouter)
 
 app.use('/healthy', (req: Request, res: Response) => {
   sendResponse(req, res, 'OK', 200)
