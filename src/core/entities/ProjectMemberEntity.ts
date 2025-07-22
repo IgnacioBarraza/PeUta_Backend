@@ -2,7 +2,7 @@ import { ProjectEntity } from './ProjectEntity'
 
 export class ProjectMemberEntity {
   id: string
-  project: ProjectEntity
+  project?: ProjectEntity
   full_name: string
 
   constructor(data: ProjectMemberEntity) {

@@ -1,7 +1,7 @@
 import { object, string } from 'zod'
 
 export const CreateMemberSchema = object({
-  project_id: string().uuid({ message: 'Invalid project ID' }).optional(),
+  project_id: string().uuid({ message: 'Invalid project ID' }),
   full_name: string().min(1, { message: 'Full name is required' }),
 })
 

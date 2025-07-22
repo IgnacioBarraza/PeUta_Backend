@@ -31,4 +31,105 @@ export class ProjectMemberController {
       )
     }
   }
+
+  public getProjectMember = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const { projectId } = req.params
+    try {
+      const api_key = getApiKeyFromHeaders(req)
+      const member = await this.memberService.getProjectMembers(
+        api_key,
+        projectId
+      )
+      sendResponse(req, res, member, 200)
+    } catch (error) {
+      const { message, errors } = sanitizeError(error)
+      next(
+        new CustomError(
+          message,
+          (error as CustomError).statusCode || 500,
+          errors
+        )
+      )
+    }
+  }
+
+  public addProjectMember = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const data = req.body
+    try {
+      const api_key = getApiKeyFromHeaders(req)
+      const member = await this.memberService.addProjectMember(api_key, data)
+      sendResponse(req, res, member, 201)
+    } catch (error) {
+      const { message, errors } = sanitizeError(error)
+      next(
+        new CustomError(
+          message,
+          (error as CustomError).statusCode || 500,
+          errors
+        )
+      )
+    }
+  }
+
+  public updateProjectMember = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const { id, projectId } = req.params
+    const data = req.body
+    try {
+      const api_key = getApiKeyFromHeaders(req)
+      const member = await this.memberService.updateProjectMember(
+        api_key,
+        id,
+        projectId,
+        data
+      )
+      sendResponse(req, res, member, 200)
+    } catch (error) {
+      const { message, errors } = sanitizeError(error)
+      next(
+        new CustomError(
+          message,
+          (error as CustomError).statusCode || 500,
+          errors
+        )
+      )
+    }
+  }
+
+  public removeProjectMember = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const { id, projectId } = req.params
+    try {
+      const api_key = getApiKeyFromHeaders(req)
+      const member = await this.memberService.removeProjectMember(
+        api_key,
+        id,
+        projectId
+      )
+      sendResponse(req, res, member, 200)
+    } catch (error) {
+      const { message, errors } = sanitizeError(error)
+      next(
+        new CustomError(
+          message,
+          (error as CustomError).statusCode || 500,
+          errors
+        )
+      )
+    }
+  }
 }

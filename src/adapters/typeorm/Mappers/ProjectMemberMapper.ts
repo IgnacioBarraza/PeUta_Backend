@@ -6,14 +6,16 @@ export const ProjectMemberMapper = {
   toDomain(raw: ProjectMember): ProjectMemberEntity {
     return new ProjectMemberEntity({
       id: raw.id,
-      project: ProjectMapper.toDomain(raw.project),
+      project: raw.project ? ProjectMapper.toDomain(raw.project) : undefined,
       full_name: raw.full_name,
     })
   },
   toSchema(raw: ProjectMemberEntity): ProjectMember {
     const projectMember = new ProjectMember()
     projectMember.id = raw.id
-    projectMember.project = ProjectMapper.toSchema(raw.project)
+    projectMember.project = raw.project
+      ? ProjectMapper.toSchema(raw.project)
+      : undefined
     projectMember.full_name = raw.full_name
     return projectMember
   },

@@ -24,6 +24,7 @@ export class EventRepositoryImpl implements EventRepository {
         categories: true,
         projects: {
           category: true,
+          members: true,
         },
       },
     })

@@ -45,11 +45,7 @@ export class ProjectMemberRepositoryImpl implements ProjectMemberRepository {
         },
       },
       relations: {
-        project: {
-          event: {
-            client: true,
-          },
-        },
+        project: true,
       },
     })
 

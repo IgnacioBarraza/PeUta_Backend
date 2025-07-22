@@ -47,7 +47,7 @@ export class ProjectMemberService {
     const { project_id, ...rest } = parsedData.data
 
     const project = await this.projectRepository.getProjectById(
-      project_id!,
+      project_id,
       api_key
     )
     if (!project)

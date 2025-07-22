@@ -17,7 +17,7 @@ export class ProjectMember {
 
   @ManyToOne(() => Project, project => project.members)
   @JoinColumn({ name: 'project_id' })
-  project!: Project
+  project?: Project
 
   @Column()
   full_name!: string
