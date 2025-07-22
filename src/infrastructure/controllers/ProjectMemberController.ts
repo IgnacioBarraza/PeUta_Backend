@@ -120,7 +120,7 @@ export class ProjectMemberController {
         id,
         projectId
       )
-      sendResponse(req, res, member, 200)
+      sendResponse(req, res, 'Integrante eliminado correctamente', 200)
     } catch (error) {
       const { message, errors } = sanitizeError(error)
       next(
