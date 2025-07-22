@@ -31,7 +31,7 @@ export class EventRepositoryImpl implements EventRepository {
     id: string,
     api_key: string
   ): Promise<EventEntity | null> {
-    const client = await this.eventRepository.findOne({
+    const event = await this.eventRepository.findOne({
       where: {
         id: id,
         client: { api_key: api_key },
@@ -41,7 +41,7 @@ export class EventRepositoryImpl implements EventRepository {
       },
     })
 
-    return client ? EventMapper.toDomain(client) : null
+    return event ? EventMapper.toDomain(event) : null
   }
 
   async createEvent(
