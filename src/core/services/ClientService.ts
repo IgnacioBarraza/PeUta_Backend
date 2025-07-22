@@ -29,6 +29,14 @@ export class ClientService {
     return client
   }
 
+  async getClientByApikey(api_key: string): Promise<ClientEntity | null> {
+    const client = await this.clientRepository.getClientByApikey(api_key)
+    if (!client)
+      throw new CustomError('Client not found', 404, ['Client not found'])
+
+    return client
+  }
+
   async createClient(client: Partial<ClientEntity>): Promise<ClientEntity> {
     const parsedData = ClientCreateSchema.strict().safeParse(client)
     if (!parsedData.success)

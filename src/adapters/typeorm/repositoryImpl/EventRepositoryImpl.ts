@@ -3,67 +3,84 @@ import { EventRepository } from '../../../core/ports/EventRepository'
 import { EventEntity } from '../../../core/entities/EventEntity'
 import { Event } from '../schema/Event'
 import { EventMapper } from '../Mappers/EventMapper'
+import { ClientService } from '../../../core/services/ClientService'
 
 export class EventRepositoryImpl implements EventRepository {
   private db: DataSource
   private eventRepository: Repository<Event>
+  private clientService: ClientService
 
-  constructor(db: DataSource) {
+  constructor(db: DataSource, clientService: ClientService) {
     this.db = db
     this.eventRepository = this.db.getRepository(Event)
+    this.clientService = clientService
   }
 
-  async getAllEvents(): Promise<EventEntity[]> {
+  async getAllEventsByApikey(api_key: string): Promise<EventEntity[]> {
     const events = await this.eventRepository.find({
-      relations: {
-        client: true,
-      },
+      where: { client: { api_key: api_key } },
     })
 
     return events.map(event => EventMapper.toDomain(event))
   }
 
-  async getEventById(id: string): Promise<EventEntity | null> {
+  async getEventByIdAndApikey(
+    id: string,
+    api_key: string
+  ): Promise<EventEntity | null> {
     const client = await this.eventRepository.findOne({
-      where: { id: id },
-      relations: {
-        client: true,
+      where: {
+        id: id,
+        client: { api_key: api_key },
       },
     })
 
     return client ? EventMapper.toDomain(client) : null
   }
 
-  async getEventsByApikey(api_key: string): Promise<EventEntity[]> {
-    const events = await this.eventRepository.find({
-      where: { client: { api_key: api_key } },
-      relations: {
-        client: true,
-      },
-    })
-
-    return events.map(event => EventMapper.toDomain(event))
-  }
-
   async createEvent(
-    eventData: Partial<EventEntity>
+    eventData: Partial<EventEntity>,
+    api_key: string
   ): Promise<EventEntity | null> {
-    const newClient = this.eventRepository.create(
-      EventMapper.toSchema(eventData as EventEntity)
-    )
-    await this.eventRepository.save(newClient)
-    return EventMapper.toDomain(newClient)
+    const client = await this.clientService.getClientByApikey(api_key)
+
+    const newEvent = this.eventRepository.create({
+      ...EventMapper.toSchema(eventData as EventEntity),
+      client: client!,
+    })
+    await this.eventRepository.save(newEvent)
+    return EventMapper.toDomain(newEvent)
   }
 
   async updateEvent(
     id: string,
-    eventData: Partial<EventEntity>
+    eventData: Partial<EventEntity>,
+    api_key: string
   ): Promise<EventEntity | null> {
+    const event = await this.eventRepository.findOne({
+      where: {
+        id,
+        client: { api_key: api_key },
+      },
+    })
+
+    if (!event) return null
+
     await this.eventRepository.update(id, eventData)
-    return await this.getEventById(id)
+    return await this.getEventByIdAndApikey(id, api_key)
   }
 
-  async deleteEvent(id: string): Promise<void> {
+  async deleteEvent(id: string, api_key: string): Promise<boolean> {
+    const event = await this.eventRepository.findOne({
+      where: {
+        id,
+        client: { api_key: api_key },
+      },
+    })
+
+    if (!event) return false
+
     await this.eventRepository.delete(id)
+    return true
   }
 }

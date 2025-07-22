@@ -1,12 +1,12 @@
-import { object, string, date, array, optional } from 'zod'
+import { object, string, date, array, optional, coerce } from 'zod'
 
 export const EventSchema = object({
   id: string(),
   name: string(),
   sub_title: string().optional(),
   description: string(),
-  date_start: date(),
-  date_end: date(),
+  date_start: coerce.date(),
+  date_end: coerce.date(),
   location: string(),
   banner_url: string(),
   client_id: string(),
@@ -25,8 +25,8 @@ export const CreateEventSchema = object({
   name: string().min(1).max(80),
   sub_title: string().max(200).optional(),
   description: string().min(1),
-  date_start: date(),
-  date_end: date(),
+  date_start: coerce.date(),
+  date_end: coerce.date(),
   location: string().min(1),
   banner_url: string().url(),
   client_id: string().uuid(),
@@ -36,8 +36,8 @@ export const UpdateEventSchema = object({
   name: string().min(1).max(80).optional(),
   sub_title: string().max(200).optional(),
   description: string().min(1).optional(),
-  date_start: date().optional(),
-  date_end: date().optional(),
+  date_start: coerce.date().optional(),
+  date_end: coerce.date().optional(),
   location: string().min(1).optional(),
   banner_url: string().url().optional(),
 })

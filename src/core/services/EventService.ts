@@ -13,28 +13,27 @@ export class EventService {
     private clientRepository: ClientRepository
   ) {}
 
-  async getAllEvents(): Promise<EventEntity[]> {
-    const events = await this.eventRepository.getAllEvents()
+  async getAllEventsByApikey(api_key: string): Promise<EventEntity[]> {
+    const events = await this.eventRepository.getAllEventsByApikey(api_key)
     if (events.length === 0)
       throw new CustomError('No events found', 404, ['No events found'])
     return events
   }
 
-  async getEventById(id: string): Promise<EventEntity> {
-    const event = await this.eventRepository.getEventById(id)
+  async getEventByIdAndApikey(
+    id: string,
+    api_key: string
+  ): Promise<EventEntity> {
+    const event = await this.eventRepository.getEventByIdAndApikey(id, api_key)
     if (!event)
       throw new CustomError('Event not found', 404, ['Event not found'])
     return event
   }
 
-  async getEventsByApikey(api_key: string): Promise<EventEntity[]> {
-    const events = await this.eventRepository.getEventsByApikey(api_key)
-    if (events.length === 0)
-      throw new CustomError('No events found', 404, ['No events found'])
-    return events
-  }
-
-  async createEvent(event: Partial<EventEntity>): Promise<EventEntity> {
+  async createEvent(
+    event: Partial<EventEntity>,
+    api_key: string
+  ): Promise<EventEntity> {
     const parsedData = CreateEventSchema.strict().safeParse(event)
     if (!parsedData.success)
       throw new CustomError('Invalid event data', 400, parsedData.error)
@@ -45,10 +44,13 @@ export class EventService {
     if (!client)
       throw new CustomError('Client not found', 404, ['Client not found'])
 
-    const newEvent = await this.eventRepository.createEvent({
-      ...data,
-      client: client,
-    })
+    const newEvent = await this.eventRepository.createEvent(
+      {
+        ...data,
+        client: client,
+      },
+      api_key
+    )
 
     if (!newEvent)
       throw new CustomError('Event not created', 500, ['Event not created'])
@@ -58,7 +60,8 @@ export class EventService {
 
   async updateEvent(
     id: string,
-    event: Partial<EventEntity>
+    event: Partial<EventEntity>,
+    api_key: string
   ): Promise<EventEntity> {
     const parsedData = UpdateEventSchema.strict().safeParse(event)
     if (!parsedData.success)
@@ -66,10 +69,19 @@ export class EventService {
 
     const data = parsedData.data
 
-    const updated = await this.eventRepository.updateEvent(id, data)
+    const updated = await this.eventRepository.updateEvent(id, data, api_key)
     if (!updated)
       throw new CustomError('Event not updated', 500, ['Event not updated'])
 
     return updated
+  }
+
+  async deleteEvent(id: string, api_key: string): Promise<boolean> {
+    const deleted = await this.eventRepository.deleteEvent(id, api_key)
+
+    if (!deleted)
+      throw new CustomError('Event not deleted', 500, ['Event not deleted'])
+
+    return deleted
   }
 }
