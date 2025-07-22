@@ -23,8 +23,6 @@ export class ClientRepositoryImpl implements ClientRepository {
       },
     })
 
-    console.log(clients[0].events)
-
     return clients.map(client => ClientMapper.toDomain(client))
   }
 

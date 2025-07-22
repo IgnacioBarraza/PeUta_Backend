@@ -24,8 +24,6 @@ export class EventRepositoryImpl implements EventRepository {
       },
     })
 
-    console.log(events[0].client)
-
     return events.map(event => EventMapper.toDomain(event))
   }
 
