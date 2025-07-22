@@ -14,14 +14,16 @@ export class ClientRepositoryImpl implements ClientRepository {
     this.clientRepo = this.db.getRepository(Client)
   }
 
-  async getAllClients(): Promise<ClientEntity[] | []> {
+  async getAllClients(): Promise<ClientEntity[]> {
     const clients = await this.clientRepo.find({
       relations: {
-        staff: true,
-        events: true,
-        pending_staff: true,
+        events: {
+          client: true,
+        },
       },
     })
+
+    console.log(clients[0].events)
 
     return clients.map(client => ClientMapper.toDomain(client))
   }
@@ -30,9 +32,9 @@ export class ClientRepositoryImpl implements ClientRepository {
     const client = await this.clientRepo.findOne({
       where: { id },
       relations: {
-        staff: true,
-        events: true,
-        pending_staff: true,
+        events: {
+          client: true,
+        },
       },
     })
 
@@ -43,9 +45,22 @@ export class ClientRepositoryImpl implements ClientRepository {
     const client = await this.clientRepo.findOne({
       where: { name: name },
       relations: {
-        staff: true,
-        events: true,
-        pending_staff: true,
+        events: {
+          client: true,
+        },
+      },
+    })
+
+    return client ? ClientMapper.toDomain(client) : null
+  }
+
+  async getClientByApikey(api_key: string): Promise<ClientEntity | null> {
+    const client = await this.clientRepo.findOne({
+      where: { api_key: api_key },
+      relations: {
+        events: {
+          client: true,
+        },
       },
     })
 
@@ -68,8 +83,10 @@ export class ClientRepositoryImpl implements ClientRepository {
     return await this.getClientById(id)
   }
 
-  async deleteClient(id: string): Promise<void> {
-    await this.clientRepo.delete(id)
+  async deleteClient(id: string): Promise<boolean> {
+    const deleted = await this.clientRepo.delete(id)
+
+    return deleted.affected !== 0
   }
 
   async addStaff(id: string, staff: Partial<ClientStaffEntity>): Promise<void> {

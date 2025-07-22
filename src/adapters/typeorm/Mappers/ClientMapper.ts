@@ -11,8 +11,8 @@ export const ClientMapper = {
       api_key: raw.api_key,
       contact_email: raw.contact_email,
       logo_url: raw.logo_url,
-      staff: raw.staff ? raw.staff.map(ClientStaffMapper.toDomain) : [],
-      events: raw.events ? raw.events.map(EventMapper.toDomain) : [],
+      staff: raw.staff?.map(ClientStaffMapper.toDomain) ?? [],
+      events: raw.events?.map(EventMapper.toDomain) ?? [],
       created_at: raw.created_at,
       updated_at: raw.updated_at,
     })
@@ -24,8 +24,8 @@ export const ClientMapper = {
     client.api_key = raw.api_key
     client.contact_email = raw.contact_email
     client.logo_url = raw.logo_url
-    client.staff = raw.staff ? raw.staff.map(ClientStaffMapper.toSchema) : []
-    client.events = raw.events ? raw.events.map(EventMapper.toSchema) : []
+    client.staff = raw.staff?.map(ClientStaffMapper.toSchema) ?? []
+    client.events = raw.events?.map(EventMapper.toSchema) ?? []
     client.created_at = raw.created_at
     client.updated_at = raw.updated_at
     return client

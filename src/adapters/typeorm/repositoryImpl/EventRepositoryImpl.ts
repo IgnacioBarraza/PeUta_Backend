@@ -19,7 +19,12 @@ export class EventRepositoryImpl implements EventRepository {
   async getAllEventsByApikey(api_key: string): Promise<EventEntity[]> {
     const events = await this.eventRepository.find({
       where: { client: { api_key: api_key } },
+      relations: {
+        client: true,
+      },
     })
+
+    console.log(events[0].client)
 
     return events.map(event => EventMapper.toDomain(event))
   }
@@ -32,6 +37,9 @@ export class EventRepositoryImpl implements EventRepository {
       where: {
         id: id,
         client: { api_key: api_key },
+      },
+      relations: {
+        client: true,
       },
     })
 

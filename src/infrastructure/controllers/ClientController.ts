@@ -19,6 +19,7 @@ export class ClientController {
       const clients = await this.clientService.getAllClients()
       sendResponse(req, res, clients, 200)
     } catch (error) {
+      console.error(error)
       const { message, errors } = sanitizeError(error)
       next(
         new CustomError(
