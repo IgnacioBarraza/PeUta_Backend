@@ -27,8 +27,8 @@ export class ProjectService {
     projectId: string
   ): Promise<ProjectEntity> {
     const project = await this.projectRepository.getProjectById(
-      api_key,
-      projectId
+      projectId,
+      api_key
     )
     if (!project)
       throw new CustomError('Project not found', 404, ['Project not found'])
@@ -98,10 +98,35 @@ export class ProjectService {
 
     const data = parsedData.data
 
+    const updatePayload: Partial<ProjectEntity> = {}
+
+    if (data.category_id) {
+      const category = await this.categoryRepository.getCategoryById(
+        api_key,
+        data.category_id
+      )
+      if (!category)
+        throw new CustomError('Category not found', 404, ['Category not found'])
+      updatePayload.category = category
+    }
+
+    if (data.event_id) {
+      const event = await this.eventRepository.getEventByIdAndApikey(
+        api_key,
+        data.event_id
+      )
+      if (!event)
+        throw new CustomError('Event not found', 404, ['Event not found'])
+      updatePayload.event = event
+    }
+
+    if (data.title) updatePayload.title = data.title
+    if (data.description) updatePayload.description = data.description
+
     const updated = await this.projectRepository.updateProject(
       id,
       api_key,
-      data
+      updatePayload
     )
 
     if (!updated)

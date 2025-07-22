@@ -34,11 +34,11 @@ export class Project {
 
   @ManyToOne(() => Category, category => category.projects)
   @JoinColumn({ name: 'category_id' })
-  category!: Category
+  category?: Category
 
   @ManyToOne(() => Event, event => event.projects)
   @JoinColumn({ name: 'event_id' })
-  event!: Event
+  event?: Event
 
   @OneToMany(() => ProjectEvaluation, evaluation => evaluation.project)
   evaluations?: ProjectEvaluation[]

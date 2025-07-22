@@ -13,8 +13,10 @@ export const ProjectMapper = {
       description: raw.description,
       image_url: raw.image_url,
       members: raw.members?.map(ProjectMemberMapper.toDomain) ?? [],
-      category: CategoryMapper.toDomain(raw.category),
-      event: EventMapper.toDomain(raw.event),
+      category: raw.category
+        ? CategoryMapper.toDomain(raw.category)
+        : undefined,
+      event: raw.event ? EventMapper.toDomain(raw.event) : undefined,
       evaluations: raw.evaluations?.map(ProjectEvaluationMapper.toDomain) ?? [],
       created_at: raw.created_at,
       updated_at: raw.updated_at,
@@ -25,10 +27,12 @@ export const ProjectMapper = {
     project.id = raw.id
     project.title = raw.title
     project.description = raw.description
-    project.category = CategoryMapper.toSchema(raw.category)
+    project.category = raw.category
+      ? CategoryMapper.toSchema(raw.category)
+      : undefined
     project.image_url = raw.image_url
     project.members = raw.members?.map(ProjectMemberMapper.toSchema) ?? []
-    project.event = EventMapper.toSchema(raw.event)
+    project.event = raw.event ? EventMapper.toSchema(raw.event) : undefined
     project.evaluations =
       raw.evaluations?.map(ProjectEvaluationMapper.toSchema) ?? []
     project.created_at = raw.created_at

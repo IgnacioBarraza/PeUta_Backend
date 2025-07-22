@@ -21,10 +21,9 @@ export class EventRepositoryImpl implements EventRepository {
       where: { client: { api_key: api_key } },
       relations: {
         client: true,
-        categories: {
-          event: {
-            client: true,
-          },
+        categories: true,
+        projects: {
+          category: true,
         },
       },
     })

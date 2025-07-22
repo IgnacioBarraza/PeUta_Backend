@@ -21,6 +21,7 @@ export class ProjectController {
       const projects = await this.projectService.getAllProjects(api_key)
       sendResponse(req, res, projects, 200)
     } catch (error) {
+      console.error(error)
       const { message, errors } = sanitizeError(error)
       next(
         new CustomError(
@@ -63,8 +64,8 @@ export class ProjectController {
     try {
       const api_key = getApiKeyFromHeaders(req)
       const projects = await this.projectService.getProjectsByEvent(
-        api_key,
-        eventId
+        eventId,
+        api_key
       )
       sendResponse(req, res, projects, 200)
     } catch (error) {
@@ -90,7 +91,6 @@ export class ProjectController {
       const project = await this.projectService.createProject(data, api_key)
       sendResponse(req, res, project, 201)
     } catch (error) {
-      console.error(error)
       const { message, errors } = sanitizeError(error)
       next(
         new CustomError(

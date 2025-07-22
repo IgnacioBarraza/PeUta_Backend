@@ -9,8 +9,8 @@ export class ProjectEntity {
   description: string
   image_url: string
   members?: ProjectMemberEntity[]
-  category: CategoryEntity
-  event: EventEntity
+  category?: CategoryEntity
+  event?: EventEntity
   evaluations?: ProjectEvaluationEntity[]
   created_at: Date
   updated_at: Date

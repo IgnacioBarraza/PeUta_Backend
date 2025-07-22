@@ -59,12 +59,6 @@ export class CategoryRepositoryImpl implements CategoryRepository {
           },
         },
       },
-      relations: {
-        projects: true,
-        event: {
-          client: true,
-        },
-      },
     })
 
     return categories.map(c => CategoryMapper.toDomain(c))

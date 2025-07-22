@@ -16,12 +16,9 @@ export class ProjectRepositoryImpl implements ProjectRepository {
   async getAllProjects(api_key: string): Promise<ProjectEntity[]> {
     const projects = await this.projectRepository.find({
       relations: {
-        event: {
-          client: true,
-        },
         category: true,
         members: true,
-        evaluations: true,
+        // evaluations: true,
       },
       where: {
         event: {
