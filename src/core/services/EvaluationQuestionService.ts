@@ -1,5 +1,5 @@
 import { CustomError } from '../../infrastructure/middlewares/errorHandler'
-import { getTotalWeightForForm } from '../../utils/processDataUtils'
+import { getTotalWeightForForm } from '../../utils/processData'
 import { EvaluationQuestionEntity } from '../entities/EvaluationQuestionEntity'
 import { EvaluationFormRepository } from '../ports/EvaluationFormRepository'
 import { EvaluationQuestionRepository } from '../ports/EvaluationQuestionRepository'
