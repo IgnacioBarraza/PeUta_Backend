@@ -4,7 +4,7 @@ export class EvaluationQuestionEntity {
   id: string
   form: EvaluationFormEntity
   question: string
-  weigth: number
+  weight: number
   order: number
   created_at: Date
   updated_at: Date
@@ -13,7 +13,7 @@ export class EvaluationQuestionEntity {
     this.id = data.id
     this.form = data.form
     this.question = data.question
-    this.weigth = data.weigth
+    this.weight = data.weight
     this.order = data.order
     this.created_at = data.created_at
     this.updated_at = data.updated_at

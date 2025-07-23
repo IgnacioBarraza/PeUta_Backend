@@ -8,7 +8,7 @@ export const EvaluationQuestionMapper = {
       id: raw.id,
       form: EvaluationFormMapper.toDomain(raw.form),
       question: raw.question,
-      weigth: raw.weigth,
+      weight: raw.weight,
       order: raw.order,
       created_at: raw.created_at,
       updated_at: raw.updated_at,
@@ -19,7 +19,7 @@ export const EvaluationQuestionMapper = {
     evaluationQuestion.id = raw.id
     evaluationQuestion.form = EvaluationFormMapper.toSchema(raw.form)
     evaluationQuestion.question = raw.question
-    evaluationQuestion.weigth = raw.weigth
+    evaluationQuestion.weight = raw.weight
     evaluationQuestion.order = raw.order
     evaluationQuestion.created_at = raw.created_at
     evaluationQuestion.updated_at = raw.updated_at

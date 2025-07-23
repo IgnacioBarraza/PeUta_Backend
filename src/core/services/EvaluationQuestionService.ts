@@ -51,14 +51,14 @@ export class EvaluationQuestionService {
     if (!form) throw new CustomError('Form not found', 404, ['Form not found'])
 
     const questions = form.questions || []
-    const currentTotal = getTotalWeightForForm(questions.map(q => q.weigth))
-    const proposedTotal = currentTotal + data.weigth
+    const currentTotal = getTotalWeightForForm(questions.map(q => q.weight))
+    const proposedTotal = currentTotal + data.weight
 
     if (proposedTotal > 1)
       throw new CustomError('Invalid weight', 400, [
         `Total weight exceeds 100%. Current total: ${currentTotal.toFixed(
           2
-        )}, new: ${data.weigth.toFixed(2)}, sum: ${proposedTotal.toFixed(2)}`,
+        )}, new: ${data.weight.toFixed(2)}, sum: ${proposedTotal.toFixed(2)}`,
       ])
 
     const createdQuestion = await this.questionRepository.createQuestion({

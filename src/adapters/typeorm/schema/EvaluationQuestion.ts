@@ -22,7 +22,7 @@ export class EvaluationQuestion {
   question!: string
 
   @Column('float')
-  weigth!: number
+  weight!: number
 
   @Column()
   order!: number
