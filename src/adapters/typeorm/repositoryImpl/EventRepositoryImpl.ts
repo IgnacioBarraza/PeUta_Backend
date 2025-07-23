@@ -26,6 +26,7 @@ export class EventRepositoryImpl implements EventRepository {
           category: true,
           members: true,
         },
+        forms: true,
       },
     })
 
@@ -43,11 +44,12 @@ export class EventRepositoryImpl implements EventRepository {
       },
       relations: {
         client: true,
-        categories: {
-          event: {
-            client: true,
-          },
+        categories: true,
+        projects: {
+          category: true,
+          members: true,
         },
+        forms: true,
       },
     })
 

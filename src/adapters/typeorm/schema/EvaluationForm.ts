@@ -24,10 +24,10 @@ export class EvaluationForm {
   @ManyToOne(() => Event, event => event.forms, {
     onDelete: 'CASCADE',
   })
-  event!: Event
+  event?: Event
 
   @OneToMany(() => EvaluationQuestion, q => q.form)
-  questions!: EvaluationQuestion[]
+  questions?: EvaluationQuestion[]
 
   @CreateDateColumn({ type: 'timestamp with time zone' })
   created_at!: Date

@@ -9,8 +9,8 @@ export const EvaluationFormMapper = {
       id: raw.id,
       name: raw.name,
       description: raw.description,
-      event: EventMapper.toDomain(raw.event),
-      questions: raw.questions.map(EvaluationQuestionMapper.toDomain),
+      event: raw.event ? EventMapper.toDomain(raw.event) : undefined,
+      questions: raw.questions?.map(EvaluationQuestionMapper.toDomain) ?? [],
       created_at: raw.created_at,
       updated_at: raw.updated_at,
     })
@@ -20,10 +20,11 @@ export const EvaluationFormMapper = {
     evaluationForm.id = raw.id
     evaluationForm.name = raw.name
     evaluationForm.description = raw.description
-    evaluationForm.event = EventMapper.toSchema(raw.event)
-    evaluationForm.questions = raw.questions.map(
-      EvaluationQuestionMapper.toSchema
-    )
+    evaluationForm.event = raw.event
+      ? EventMapper.toSchema(raw.event)
+      : undefined
+    evaluationForm.questions =
+      raw.questions?.map(EvaluationQuestionMapper.toSchema) ?? []
     evaluationForm.created_at = raw.created_at
     evaluationForm.updated_at = raw.updated_at
     return evaluationForm

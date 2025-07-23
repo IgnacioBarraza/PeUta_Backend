@@ -121,7 +121,7 @@ export class ProjectRepositoryImpl implements ProjectRepository {
         id,
         event: {
           client: {
-            api_key,
+            api_key: api_key,
           },
         },
       },
