@@ -16,7 +16,7 @@ export class EvaluationQuestion {
   @ManyToOne(() => EvaluationForm, form => form.questions, {
     onDelete: 'CASCADE',
   })
-  form!: EvaluationForm
+  form?: EvaluationForm
 
   @Column('text')
   question!: string

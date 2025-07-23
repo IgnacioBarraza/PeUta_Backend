@@ -9,6 +9,6 @@ export const CreateEvaluationQuestionSchema = object({
 
 export const UpdateEvaluationQuestionSchema = object({
   question: string().min(1).optional(),
-  weigth: number().nonnegative().optional(),
+  weight: number().nonnegative().optional(),
   order: number().int().nonnegative().optional(),
 })

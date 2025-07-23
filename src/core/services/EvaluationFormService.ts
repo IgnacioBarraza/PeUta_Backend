@@ -48,7 +48,7 @@ export class EvaluationFormService {
   ): Promise<EvaluationFormEntity> {
     const parsedData = CreateEvaluationFormSchema.strict().safeParse(form)
     if (!parsedData.success)
-      throw new CustomError('Validation error', 400, parsedData.error.errors)
+      throw new CustomError('Validation error', 400, parsedData.error)
 
     const data = parsedData.data
 

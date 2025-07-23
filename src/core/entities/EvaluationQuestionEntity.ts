@@ -2,7 +2,7 @@ import { EvaluationFormEntity } from './EvaluationFormEntity'
 
 export class EvaluationQuestionEntity {
   id: string
-  form: EvaluationFormEntity
+  form?: EvaluationFormEntity
   question: string
   weight: number
   order: number

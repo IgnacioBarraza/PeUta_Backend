@@ -6,7 +6,7 @@ export const EvaluationQuestionMapper = {
   toDomain(raw: EvaluationQuestion): EvaluationQuestionEntity {
     return new EvaluationQuestionEntity({
       id: raw.id,
-      form: EvaluationFormMapper.toDomain(raw.form),
+      form: raw.form ? EvaluationFormMapper.toDomain(raw.form) : undefined,
       question: raw.question,
       weight: raw.weight,
       order: raw.order,
@@ -17,7 +17,9 @@ export const EvaluationQuestionMapper = {
   toSchema(raw: EvaluationQuestionEntity): EvaluationQuestion {
     const evaluationQuestion = new EvaluationQuestion()
     evaluationQuestion.id = raw.id
-    evaluationQuestion.form = EvaluationFormMapper.toSchema(raw.form)
+    evaluationQuestion.form = raw.form
+      ? EvaluationFormMapper.toSchema(raw.form)
+      : undefined
     evaluationQuestion.question = raw.question
     evaluationQuestion.weight = raw.weight
     evaluationQuestion.order = raw.order

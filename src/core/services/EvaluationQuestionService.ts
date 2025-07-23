@@ -40,7 +40,7 @@ export class EvaluationQuestionService {
     const parsedData =
       CreateEvaluationQuestionSchema.strict().safeParse(question)
     if (!parsedData.success) {
-      throw new CustomError('Invalid data', 400, parsedData.error.errors)
+      throw new CustomError('Invalid data', 400, parsedData.error)
     }
     const data = parsedData.data
 
@@ -55,11 +55,17 @@ export class EvaluationQuestionService {
     const proposedTotal = currentTotal + data.weight
 
     if (proposedTotal > 1)
-      throw new CustomError('Invalid weight', 400, [
-        `Total weight exceeds 100%. Current total: ${currentTotal.toFixed(
+      throw new CustomError(
+        `Invalid weight. Total weight exceeds 100%. Current total: ${currentTotal.toFixed(
           2
         )}, new: ${data.weight.toFixed(2)}, sum: ${proposedTotal.toFixed(2)}`,
-      ])
+        400,
+        [
+          `Total weight exceeds 100%. Current total: ${currentTotal.toFixed(
+            2
+          )}, new: ${data.weight.toFixed(2)}, sum: ${proposedTotal.toFixed(2)}`,
+        ]
+      )
 
     const createdQuestion = await this.questionRepository.createQuestion({
       ...data,
@@ -85,6 +91,43 @@ export class EvaluationQuestionService {
       throw new CustomError('Invalid data', 400, parsedData.error.errors)
 
     const data = parsedData.data
+
+    // Si se está actualizando el weight, validar el total
+    if (data.weight !== undefined) {
+      const currentQuestion = await this.questionRepository.getQuestionById(
+        api_key,
+        id
+      )
+      if (!currentQuestion) {
+        throw new CustomError('Question not found', 404, ['Question not found'])
+      }
+
+      const form = await this.formRepository.getEvaluationFormById(
+        api_key,
+        currentQuestion.form!.id
+      )
+      if (!form)
+        throw new CustomError('Form not found', 404, ['Form not found'])
+
+      const questions = form.questions || []
+      const currentTotal = getTotalWeightForForm(
+        questions.filter(q => q.id !== id).map(q => q.weight)
+      )
+      const proposedTotal = currentTotal + data.weight
+
+      if (proposedTotal > 1)
+        throw new CustomError(
+          `Invalid weight. Total weight exceeds 100%. Current total: ${currentTotal.toFixed(
+            2
+          )}, new: ${data.weight.toFixed(2)}, sum: ${proposedTotal.toFixed(2)}`,
+          400,
+          [
+            `Total weight exceeds 100%. Current total: ${currentTotal.toFixed(
+              2
+            )}, new: ${data.weight.toFixed(2)}, sum: ${proposedTotal.toFixed(2)}`,
+          ]
+        )
+    }
 
     const updatedQuestion = await this.questionRepository.updateQuestion(
       api_key,
