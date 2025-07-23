@@ -1,6 +1,5 @@
 import { EvaluationAnswerEntity } from '../../../core/entities/EvaluationAnswerEntity'
 import { EvaluationAnswer } from '../schema/EvaluationAnswer'
-import { EvaluationFormMapper } from './EvaluationFormMapper'
 import { EvaluationQuestionMapper } from './EvaluationQuestionMapper'
 import { ProjectEvaluationMapper } from './ProjectEvaluationMapper'
 
