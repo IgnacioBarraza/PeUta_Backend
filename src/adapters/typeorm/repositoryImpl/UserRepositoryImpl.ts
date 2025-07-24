@@ -14,27 +14,23 @@ export class UserRepositoryImpl implements UserRepository {
   }
 
   async getUserByRut(rut: string): Promise<UserEntity | null> {
-    const user = await this.userRepo.findOne({
-      where: {
-        rut: rut,
-      },
-      relations: {
-        role: true,
-      },
-    })
+    const user = await this.userRepo
+      .createQueryBuilder('user')
+      .addSelect('user.password')
+      .leftJoinAndSelect('user.role', 'role')
+      .where('user.rut = :rut', { rut })
+      .getOne()
 
     return user ? UserMapper.toDomain(user) : null
   }
 
   async getUserByEmail(email: string): Promise<UserEntity | null> {
-    const user = await this.userRepo.findOne({
-      where: {
-        email: email,
-      },
-      relations: {
-        role: true,
-      },
-    })
+    const user = await this.userRepo
+      .createQueryBuilder('user')
+      .addSelect('user.password')
+      .leftJoinAndSelect('user.role', 'role')
+      .where('user.email = :email', { email })
+      .getOne()
 
     return user ? UserMapper.toDomain(user) : null
   }
@@ -81,14 +77,15 @@ export class UserRepositoryImpl implements UserRepository {
   ): Promise<UserEntity | null> {
     const isEmail = identifier.includes('@')
 
-    const user = await this.userRepo.findOne({
-      where: isEmail
-        ? { email: identifier, password: password }
-        : { rut: identifier, password: password },
-      relations: {
-        role: true,
-      },
-    })
+    const user = await this.userRepo
+      .createQueryBuilder('user')
+      .addSelect('user.password')
+      .leftJoinAndSelect('user.role', 'role')
+      .where(isEmail ? 'user.email = :identifier' : 'user.rut = :identifier', {
+        identifier,
+      })
+      .andWhere('user.password = :password', { password })
+      .getOne()
 
     return user ? UserMapper.toDomain(user) : null
   }

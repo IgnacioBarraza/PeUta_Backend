@@ -25,7 +25,7 @@ export class User {
   @Column({ nullable: true, unique: true, length: 6 })
   rut?: string
 
-  @Column()
+  @Column({ select: false })
   password!: string
 
   @CreateDateColumn({ type: 'timestamptz' })
