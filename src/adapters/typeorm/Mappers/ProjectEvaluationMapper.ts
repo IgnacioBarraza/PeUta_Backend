@@ -9,22 +9,29 @@ export const ProjectEvaluationMapper = {
   toDomain(raw: ProjectEvaluation): ProjectEvaluationEntity {
     return new ProjectEvaluationEntity({
       id: raw.id,
-      project: ProjectMapper.toDomain(raw.project),
+      project: raw.project ? ProjectMapper.toDomain(raw.project) : undefined,
       evaluator: UserMapper.toDomain(raw.evaluator),
-      form: EvaluationFormMapper.toDomain(raw.form),
+      form: raw.form ? EvaluationFormMapper.toDomain(raw.form) : undefined,
       final_score: raw.final_score,
-      answers: raw.answers.map(EvaluationAnswerMapper.toDomain),
+      answers: raw.answers?.map(EvaluationAnswerMapper.toDomain) ?? [],
+      comment: raw.comment ?? undefined,
       created_at: raw.created_at,
     })
   },
   toSchema(raw: ProjectEvaluationEntity): ProjectEvaluation {
     const projectEvaluation = new ProjectEvaluation()
     projectEvaluation.id = raw.id
-    projectEvaluation.project = ProjectMapper.toSchema(raw.project)
+    projectEvaluation.project = raw.project
+      ? ProjectMapper.toSchema(raw.project)
+      : undefined
     projectEvaluation.evaluator = UserMapper.toSchema(raw.evaluator)
-    projectEvaluation.form = EvaluationFormMapper.toSchema(raw.form)
+    projectEvaluation.form = raw.form
+      ? EvaluationFormMapper.toSchema(raw.form)
+      : undefined
     projectEvaluation.final_score = raw.final_score
-    projectEvaluation.answers = raw.answers.map(EvaluationAnswerMapper.toSchema)
+    projectEvaluation.answers =
+      raw.answers?.map(EvaluationAnswerMapper.toSchema) ?? []
+    projectEvaluation.comment = raw.comment ?? undefined
     projectEvaluation.created_at = raw.created_at
     return projectEvaluation
   },

@@ -22,7 +22,7 @@ export class User {
   email?: string
 
   @Index()
-  @Column({ nullable: true, unique: true, length: 12 })
+  @Column({ nullable: true, unique: true, length: 6 })
   rut?: string
 
   @Column()
@@ -35,5 +35,5 @@ export class User {
   updated_at!: Date
 
   @ManyToOne(() => Role, role => role.user)
-  role!: Role
+  role?: Role
 }

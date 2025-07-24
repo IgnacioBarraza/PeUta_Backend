@@ -19,19 +19,22 @@ export class ProjectEvaluation {
   @ManyToOne(() => Project, project => project.evaluations, {
     onDelete: 'CASCADE',
   })
-  project!: Project
+  project?: Project
 
   @ManyToOne(() => User, { eager: true })
   evaluator!: User
 
   @ManyToOne(() => EvaluationForm, { eager: true })
-  form!: EvaluationForm
+  form?: EvaluationForm
 
   @Column('float')
   final_score!: number
 
   @OneToMany(() => EvaluationAnswer, answer => answer.evaluation)
-  answers!: EvaluationAnswer[]
+  answers?: EvaluationAnswer[]
+
+  @Column({ type: 'text', nullable: true })
+  comment?: string
 
   @CreateDateColumn({ type: 'timestamp with time zone' })
   created_at!: Date

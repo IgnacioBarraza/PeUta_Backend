@@ -5,11 +5,12 @@ import { UserEntity } from './UserEntity'
 
 export class ProjectEvaluationEntity {
   id: string
-  project: ProjectEntity
+  project?: ProjectEntity
   evaluator: UserEntity
-  form: EvaluationFormEntity
+  form?: EvaluationFormEntity
   final_score: number
-  answers: EvaluationAnswerEntity[]
+  answers?: EvaluationAnswerEntity[]
+  comment?: string
   created_at: Date
 
   constructor(data: ProjectEvaluationEntity) {
@@ -18,7 +19,8 @@ export class ProjectEvaluationEntity {
     this.evaluator = data.evaluator
     this.form = data.form
     this.final_score = data.final_score
-    this.answers = data.answers
+    this.answers = data.answers ?? []
+    this.comment = data.comment ?? undefined
     this.created_at = data.created_at
   }
 }

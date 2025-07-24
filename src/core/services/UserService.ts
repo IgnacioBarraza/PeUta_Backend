@@ -102,7 +102,7 @@ export class UserService {
       {
         user: createdUser.id,
         rut: createdUser.rut,
-        role: createdUser.role.name,
+        role: createdUser.role!.name,
       },
       envConfig.jwtSecret as string,
       {
@@ -127,7 +127,7 @@ export class UserService {
       ])
 
     const token = jwt.sign(
-      { user: user.id, identifier: identifier, role: user.role.name },
+      { user: user.id, identifier: identifier, role: user.role!.name },
       envConfig.jwtSecret as string,
       {
         expiresIn: '3h',

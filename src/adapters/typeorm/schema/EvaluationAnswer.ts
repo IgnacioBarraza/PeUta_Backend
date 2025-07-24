@@ -10,14 +10,11 @@ export class EvaluationAnswer {
   @ManyToOne(() => ProjectEvaluation, evaluation => evaluation.answers, {
     onDelete: 'CASCADE',
   })
-  evaluation!: ProjectEvaluation
+  evaluation?: ProjectEvaluation
 
   @ManyToOne(() => EvaluationQuestion, { eager: true })
   question!: EvaluationQuestion
 
   @Column('float')
   score!: number
-
-  @Column({ type: 'text', nullable: true })
-  comment?: string
 }

@@ -12,7 +12,7 @@ export const UserMapper = {
       password: raw.password,
       created_at: raw.created_at,
       updated_at: raw.updated_at,
-      role: RoleMapper.toDomain(raw.role),
+      role: raw.role ? RoleMapper.toDomain(raw.role) : undefined,
     })
   },
 
@@ -25,7 +25,7 @@ export const UserMapper = {
     user.password = raw.password
     user.created_at = raw.created_at
     user.updated_at = raw.updated_at
-    user.role = RoleMapper.toSchema(raw.role)
+    user.role = raw.role ? RoleMapper.toSchema(raw.role) : undefined
     return user
   },
 }

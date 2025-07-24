@@ -8,7 +8,7 @@ export class UserEntity {
   password: string
   created_at: Date
   updated_at: Date
-  role: RoleEntity
+  role?: RoleEntity
 
   constructor(data: UserEntity) {
     this.id = data.id
@@ -18,6 +18,6 @@ export class UserEntity {
     this.password = data.password
     this.created_at = data.created_at
     this.updated_at = data.updated_at
-    this.role = data.role
+    this.role = data.role ?? undefined
   }
 }

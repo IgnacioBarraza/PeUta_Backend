@@ -1,6 +1,7 @@
 import { ProjectEvaluationEntity } from '../entities/ProjectEvaluationEntity'
 
 export interface ProjectEvaluationRepository {
+  getAllEvaluations(api_key: string): Promise<ProjectEvaluationEntity[]>
   getEvaluationById(
     api_key: string,
     id: string
@@ -23,4 +24,9 @@ export interface ProjectEvaluationRepository {
     user_id: string,
     event_id: string
   ): Promise<ProjectEvaluationEntity[]>
+  updateEvaluationFinalScore(
+    api_key: string,
+    id: string,
+    final_score: number
+  ): Promise<ProjectEvaluationEntity | null>
 }

@@ -15,6 +15,8 @@ import { categoryRouter } from './routes/CategoryRouter'
 import { memberRouter } from './routes/ProjectMemberRouter'
 import { questionRouter } from './routes/EvaluationQuestionRouter'
 import { formRouter } from './routes/EvaluationFormRouter'
+import { answerRouter } from './routes/EvaluationAnswerRouter'
+import { evaluationRouter } from './routes/ProjectEvaluationRouter'
 
 const app = express()
 
@@ -40,6 +42,8 @@ app.use('/api/categories', categoryRouter)
 app.use('/api/members', memberRouter)
 app.use('/api/forms', formRouter)
 app.use('/api/questions', questionRouter)
+app.use('/api/answers', answerRouter)
+app.use('/api/evaluations', evaluationRouter)
 
 app.use('/healthy', (req: Request, res: Response) => {
   sendResponse(req, res, 'OK', 200)

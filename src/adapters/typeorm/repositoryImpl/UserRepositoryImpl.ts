@@ -49,6 +49,19 @@ export class UserRepositoryImpl implements UserRepository {
     return users.map(user => UserMapper.toDomain(user))
   }
 
+  async getUserById(id: string): Promise<UserEntity | null> {
+    const user = await this.userRepo.findOne({
+      where: {
+        id: id,
+      },
+      relations: {
+        role: true,
+      },
+    })
+
+    return user ? UserMapper.toDomain(user) : null
+  }
+
   async register(userData: Partial<UserEntity>): Promise<UserEntity | null> {
     const newUser = this.userRepo.create(
       UserMapper.toSchema(userData as UserEntity)

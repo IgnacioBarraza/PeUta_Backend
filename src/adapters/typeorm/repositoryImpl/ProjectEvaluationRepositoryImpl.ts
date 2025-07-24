@@ -15,6 +15,28 @@ export class ProjectEvaluationRepositoryImpl
     this.evaluationRepository = this.db.getRepository(ProjectEvaluation)
   }
 
+  async getAllEvaluations(api_key: string): Promise<ProjectEvaluationEntity[]> {
+    const evaluations = await this.evaluationRepository.find({
+      where: {
+        form: {
+          event: {
+            client: {
+              api_key: api_key,
+            },
+          },
+        },
+      },
+      relations: {
+        evaluator: true,
+        answers: true,
+      },
+    })
+
+    return evaluations.map(evaluation =>
+      ProjectEvaluationMapper.toDomain(evaluation)
+    )
+  }
+
   async getEvaluationById(
     api_key: string,
     id: string
@@ -149,5 +171,18 @@ export class ProjectEvaluationRepositoryImpl
     })
 
     return !!evaluation
+  }
+
+  async updateEvaluationFinalScore(
+    api_key: string,
+    id: string,
+    final_score: number
+  ): Promise<ProjectEvaluationEntity | null> {
+    const existingEvaluation = await this.getEvaluationById(api_key, id)
+
+    if (!existingEvaluation) return null
+
+    existingEvaluation.final_score = final_score
+    return existingEvaluation
   }
 }
