@@ -51,7 +51,9 @@ export class EventRepositoryImpl implements EventRepository {
           category: true,
           members: true,
         },
-        forms: true,
+        forms: {
+          questions: true,
+        },
       },
     })
 
