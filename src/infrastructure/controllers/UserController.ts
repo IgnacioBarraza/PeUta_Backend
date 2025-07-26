@@ -68,6 +68,23 @@ export class UserController {
     }
   }
 
+  public getById = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { id } = req.params
+      const user = await this.userService.getuserById(id)
+      sendResponse(req, res, user, 200)
+    } catch (error) {
+      const { message, errors } = sanitizeError(error)
+      next(
+        new CustomError(
+          message,
+          (error as CustomError).statusCode || 500,
+          errors
+        )
+      )
+    }
+  }
+
   public login = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { identifier, password } = req.body

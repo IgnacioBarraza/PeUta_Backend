@@ -40,6 +40,13 @@ export class UserService {
     return user
   }
 
+  async getuserById(id: string): Promise<UserEntity> {
+    const user = await this.userRepository.getUserById(id)
+    if (!user)
+      throw new CustomError('User not found', 404, ['Usuario no encontrado'])
+    return user
+  }
+
   async registerByRut(user: Partial<UserEntity>): Promise<string> {
     if (!user.rut) {
       throw new CustomError('RUT requerido', 400, ['RUT requerido'])

@@ -1,6 +1,6 @@
 {
   "name": "hyosei_backend",
-  "version": "2.0.1",
+  "version": "2.1.1",
   "description": "Backend for Hyosei",
   "main": "index.js",
   "scripts": {
