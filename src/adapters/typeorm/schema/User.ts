@@ -22,7 +22,7 @@ export class User {
   email?: string
 
   @Index()
-  @Column({ nullable: true, unique: true, length: 6 })
+  @Column({ nullable: true, unique: true })
   rut?: string
 
   @Column({ select: false })

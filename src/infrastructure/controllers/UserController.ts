@@ -90,7 +90,7 @@ export class UserController {
       const { identifier, password } = req.body
       const token = await this.userService.login(identifier, password)
 
-      sendResponse(req, res, { message: 'Inicio de sesión exitoso' }, 200, [
+      sendResponse(req, res, token, 200, [
         {
           name: 'user_token',
           value: token,
@@ -120,7 +120,7 @@ export class UserController {
       const data = req.body
       const token = await this.userService.register(data)
 
-      sendResponse(req, res, { message: 'Registro de sesión exitoso' }, 201, [
+      sendResponse(req, res, token, 201, [
         {
           name: 'user_token',
           value: token,
