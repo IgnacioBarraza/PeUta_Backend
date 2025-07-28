@@ -29,6 +29,9 @@ export class ProjectEvaluationRepositoryImpl
       relations: {
         evaluator: true,
         answers: true,
+        project: {
+          category: true,
+        },
       },
     })
 
@@ -55,6 +58,9 @@ export class ProjectEvaluationRepositoryImpl
       relations: {
         evaluator: true,
         answers: true,
+        project: {
+          category: true,
+        },
       },
     })
 
@@ -81,6 +87,9 @@ export class ProjectEvaluationRepositoryImpl
       relations: {
         evaluator: true,
         answers: true,
+        project: {
+          category: true,
+        },
       },
     })
 
@@ -111,6 +120,9 @@ export class ProjectEvaluationRepositoryImpl
       relations: {
         evaluator: true,
         answers: true,
+        project: {
+          category: true,
+        },
       },
     })
 

@@ -43,6 +43,7 @@ const evaluationController = new ProjectEvaluationController(evaluationService)
 export const evaluationRouter = Router()
 
 evaluationRouter.use(validateApiKEy)
+evaluationRouter.use(authenticateToken)
 
 evaluationRouter.get('/', evaluationController.getAllEvaluations)
 evaluationRouter.get('/:id', evaluationController.getEvaluationById)
@@ -56,12 +57,7 @@ evaluationRouter.get(
 )
 evaluationRouter.get(
   '/user/:userId/project/:projectId',
-  authenticateToken,
   evaluationController.hasUserEvaluatedProject
 )
-evaluationRouter.post(
-  '/',
-  authenticateToken,
-  evaluationController.createEvaluation
-)
+evaluationRouter.post('/', evaluationController.createEvaluation)
 evaluationRouter.delete('/:id', evaluationController.deleteEvaluation)
