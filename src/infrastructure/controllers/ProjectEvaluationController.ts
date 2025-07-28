@@ -117,6 +117,32 @@ export class ProjectEvaluationController {
     }
   }
 
+  public hasUserEvaluatedProject = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const { userId, projectId } = req.params
+    try {
+      const api_key = getApiKeyFromHeaders(req)
+      const hasEvaluated = await this.evaluationService.hasUserEvaluatedProject(
+        api_key,
+        userId,
+        projectId
+      )
+      sendResponse(req, res, hasEvaluated, 200)
+    } catch (error) {
+      const { message, errors } = sanitizeError(error)
+      next(
+        new CustomError(
+          message,
+          (error as CustomError).statusCode || 500,
+          errors
+        )
+      )
+    }
+  }
+
   public createEvaluation = async (
     req: AuthenticatedRequest,
     res: Response,

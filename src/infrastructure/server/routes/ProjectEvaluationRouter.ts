@@ -54,6 +54,11 @@ evaluationRouter.get(
   '/user/:userId/event/:eventId',
   evaluationController.getEvaluatedProjectsByUser
 )
+evaluationRouter.get(
+  '/user/:userId/project/:projectId',
+  authenticateToken,
+  evaluationController.hasUserEvaluatedProject
+)
 evaluationRouter.post(
   '/',
   authenticateToken,
