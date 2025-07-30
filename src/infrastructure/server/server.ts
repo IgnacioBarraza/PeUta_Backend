@@ -17,6 +17,7 @@ import { questionRouter } from './routes/EvaluationQuestionRouter'
 import { formRouter } from './routes/EvaluationFormRouter'
 import { answerRouter } from './routes/EvaluationAnswerRouter'
 import { evaluationRouter } from './routes/ProjectEvaluationRouter'
+import { exportRouter } from './routes/ExportEventRouter'
 
 const app = express()
 
@@ -44,6 +45,7 @@ app.use('/api/forms', formRouter)
 app.use('/api/questions', questionRouter)
 app.use('/api/answers', answerRouter)
 app.use('/api/evaluations', evaluationRouter)
+app.use('/api/exports', exportRouter)
 
 app.use('/healthy', (req: Request, res: Response) => {
   sendResponse(req, res, 'OK', 200)
