@@ -16,6 +16,7 @@ import { ProjectRepository } from '../../../core/ports/ProjectRepository'
 import { ProjectRepositoryImpl } from '../../../adapters/typeorm/repositoryImpl/ProjectRepositoryImpl'
 import { EvaluationFormRepository } from '../../../core/ports/EvaluationFormRepository'
 import { EvaluationFormRepositoryImpl } from '../../../adapters/typeorm/repositoryImpl/EvaluationFormRepositoryImpl'
+import { authorizeEvaluation } from '../../middlewares/authorizeEvaluation'
 
 const evaluationRepository: ProjectEvaluationRepository =
   new ProjectEvaluationRepositoryImpl(AppDataSource)
@@ -59,5 +60,9 @@ evaluationRouter.get(
   '/user/:userId/project/:projectId',
   evaluationController.hasUserEvaluatedProject
 )
-evaluationRouter.post('/', evaluationController.createEvaluation)
+evaluationRouter.post(
+  '/',
+  authorizeEvaluation,
+  evaluationController.createEvaluation
+)
 evaluationRouter.delete('/:id', evaluationController.deleteEvaluation)

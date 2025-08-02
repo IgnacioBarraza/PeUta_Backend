@@ -21,7 +21,7 @@ export class ProjectEvaluation {
   })
   project?: Project
 
-  @ManyToOne(() => User, { eager: true })
+  @ManyToOne(() => User, { eager: true, onDelete: 'CASCADE' })
   evaluator!: User
 
   @ManyToOne(() => EvaluationForm, { eager: true })

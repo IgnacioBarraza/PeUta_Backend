@@ -42,6 +42,20 @@ export class Event {
   @Column()
   banner_url!: string
 
+  @Column({
+    type: 'varchar',
+    default: 'email',
+    nullable: false,
+  })
+  registration_method!: 'email' | 'rut' | 'both'
+
+  @Column({
+    type: 'boolean',
+    default: false,
+    nullable: false,
+  })
+  allow_public_evaluation!: boolean
+
   @ManyToOne(() => Client, client => client.events)
   @JoinColumn({ name: 'client_id' })
   @Index()
