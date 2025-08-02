@@ -8,4 +8,5 @@ export interface UserRepository {
   register(userData: Partial<UserEntity>): Promise<UserEntity | null>
   login(identifier: string, password: string): Promise<UserEntity | null>
   deleteUser(id: string): Promise<void>
+  updateUser(id: string, data: Partial<UserEntity>): Promise<UserEntity | null>
 }

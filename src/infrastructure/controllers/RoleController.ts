@@ -35,9 +35,9 @@ export class RoleController {
     res: Response,
     next: NextFunction
   ) => {
-    const { uid } = req.params
+    const { id } = req.params
     try {
-      const role = await this.roleService.getRoleById(uid)
+      const role = await this.roleService.getRoleById(id)
       sendResponse(req, res, role, 200)
     } catch (error) {
       const { message, errors } = sanitizeError(error)
@@ -77,10 +77,10 @@ export class RoleController {
     res: Response,
     next: NextFunction
   ) => {
-    const { uid } = req.params
+    const { id } = req.params
     const data = req.body
     try {
-      const updatedRole = await this.roleService.updateRole(uid, data)
+      const updatedRole = await this.roleService.updateRole(id, data)
       sendResponse(req, res, updatedRole, 200)
     } catch (error) {
       const { message, errors } = sanitizeError(error)
@@ -99,9 +99,9 @@ export class RoleController {
     res: Response,
     next: NextFunction
   ) => {
-    const { uid } = req.params
+    const { id } = req.params
     try {
-      await this.roleService.deleteRole(uid)
+      await this.roleService.deleteRole(id)
       sendResponse(req, res, 'Role deleted succesfully', 200)
     } catch (error) {
       const { message, errors } = sanitizeError(error)

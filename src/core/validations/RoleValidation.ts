@@ -5,3 +5,9 @@ export const RoleValidation = object({
   description: string({ required_error: 'Role description is required' }),
   label: string({ required_error: 'Role label is required' }),
 })
+
+export const UpdateRoleSchema = object({
+  name: string().optional(),
+  description: string().optional(),
+  label: string().optional(),
+})

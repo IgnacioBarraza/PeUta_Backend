@@ -6,6 +6,7 @@ import { AppDataSource } from '../../orm/data-source'
 import { UserRepository } from '../../../core/ports/UserRepository'
 import { RoleRepository } from '../../../core/ports/RoleRepository'
 import { RoleRepositoryImpl } from '../../../adapters/typeorm/repositoryImpl/RoleRepositoryImpl'
+import { authenticateToken } from '../../middlewares/authMiddleware'
 
 const userRepository: UserRepository = new UserRepositoryImpl(AppDataSource)
 const roleRepository: RoleRepository = new RoleRepositoryImpl(AppDataSource)
@@ -14,10 +15,14 @@ const userController = new UserController(userService)
 
 export const userRouter = Router()
 
-userRouter.get('/', userController.getAllUsers)
+userRouter.post('/login', userController.login)
 userRouter.post('/signup', userController.register)
+
+userRouter.use(authenticateToken)
+
+userRouter.get('/', userController.getAllUsers)
 userRouter.get('/rut/:rut', userController.getByRut)
 userRouter.get('/email/:email', userController.getByEmail)
 userRouter.get('/id/:id', userController.getById)
-userRouter.post('/login', userController.login)
 userRouter.delete('/:id', userController.deleteUser)
+userRouter.patch('/:id', userController.updateUser)

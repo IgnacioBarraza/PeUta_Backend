@@ -93,4 +93,12 @@ export class UserRepositoryImpl implements UserRepository {
   async deleteUser(id: string): Promise<void> {
     await this.userRepo.delete(id)
   }
+
+  async updateUser(
+    id: string,
+    data: Partial<UserEntity>
+  ): Promise<UserEntity | null> {
+    await this.userRepo.update(id, data)
+    return await this.getUserById(id)
+  }
 }

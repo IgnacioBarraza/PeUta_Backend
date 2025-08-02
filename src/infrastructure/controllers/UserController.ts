@@ -161,4 +161,26 @@ export class UserController {
       )
     }
   }
+
+  public updateUser = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> => {
+    const { id } = req.params
+    const data = req.body
+    try {
+      const user = await this.userService.updateUser(id, data)
+      sendResponse(req, res, user, 200)
+    } catch (error) {
+      const { message, errors } = sanitizeError(error)
+      next(
+        new CustomError(
+          message,
+          (error as CustomError).statusCode || 500,
+          errors
+        )
+      )
+    }
+  }
 }

@@ -1,7 +1,7 @@
 import { CustomError } from '../../infrastructure/middlewares/errorHandler'
 import { RoleEntity } from '../entities/RoleEntity'
 import { RoleRepository } from '../ports/RoleRepository'
-import { RoleValidation } from '../validations/RoleValidation'
+import { RoleValidation, UpdateRoleSchema } from '../validations/RoleValidation'
 
 export class RoleService {
   constructor(private roleRepository: RoleRepository) {}
@@ -14,8 +14,8 @@ export class RoleService {
     return roles
   }
 
-  async getRoleById(uid: string): Promise<RoleEntity> {
-    const role = await this.roleRepository.getRoleById(uid)
+  async getRoleById(id: string): Promise<RoleEntity> {
+    const role = await this.roleRepository.getRoleById(id)
     if (!role)
       throw new CustomError('Role not found', 404, ['Rol no encontrado'])
 
@@ -23,7 +23,7 @@ export class RoleService {
   }
 
   async createRole(role: Partial<RoleEntity>): Promise<RoleEntity> {
-    const parsedData = RoleValidation.safeParse(role)
+    const parsedData = RoleValidation.strict().safeParse(role)
 
     if (!parsedData.success)
       throw new CustomError('Invalid data', 400, parsedData.error)
@@ -39,31 +39,24 @@ export class RoleService {
     return newRole
   }
 
-  async updateRole(
-    uid: string,
-    data: Partial<RoleEntity>
-  ): Promise<RoleEntity> {
-    const { name, description, label } = data
+  async updateRole(id: string, role: Partial<RoleEntity>): Promise<RoleEntity> {
+    const parsedData = UpdateRoleSchema.strict().safeParse(role)
 
-    const role = await this.getRoleById(uid)
+    if (!parsedData.success)
+      throw new CustomError('Invalid data', 400, parsedData.error)
 
-    const updatedRoleData = {
-      name: name ?? role.name,
-      description: description ?? role.description,
-      label: label ?? role.label,
-    }
+    await this.getRoleById(id)
 
-    const updatedRole = await this.roleRepository.updateRole(
-      uid,
-      updatedRoleData
-    )
-    if (!updatedRole)
+    const data = parsedData.data
+
+    const updated = await this.roleRepository.updateRole(id, data)
+    if (!updated)
       throw new CustomError('Error updating role', 500, ['Error base de datos'])
 
-    return updatedRole
+    return updated
   }
 
-  async deleteRole(uid: string): Promise<void> {
-    await this.roleRepository.deleteRole(uid)
+  async deleteRole(id: string): Promise<void> {
+    await this.roleRepository.deleteRole(id)
   }
 }
