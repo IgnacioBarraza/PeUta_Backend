@@ -18,6 +18,9 @@ import { formRouter } from './routes/EvaluationFormRouter'
 import { answerRouter } from './routes/EvaluationAnswerRouter'
 import { evaluationRouter } from './routes/ProjectEvaluationRouter'
 import { exportRouter } from './routes/ExportEventRouter'
+import { authenticateToken } from '../middlewares/authMiddleware'
+import { authorizeRoles } from '../middlewares/authorizeRole'
+import { validateApiKEy } from '../middlewares/validateApiKey'
 
 const app = express()
 
@@ -37,6 +40,12 @@ app.use(cookieParser())
 app.use('/api/users', userRouter)
 app.use('/api/roles', roleRouter)
 app.use('/api/clients', clientRouter)
+
+app.use(
+  validateApiKEy,
+  authenticateToken,
+  authorizeRoles(['super_admin', 'admin', 'staff'])
+)
 app.use('/api/events', eventRouter)
 app.use('/api/projects', projectRouter)
 app.use('/api/categories', categoryRouter)

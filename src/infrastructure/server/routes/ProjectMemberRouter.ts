@@ -6,7 +6,6 @@ import { ProjectMemberRepositoryImpl } from '../../../adapters/typeorm/repositor
 import { AppDataSource } from '../../orm/data-source'
 import { ProjectRepository } from '../../../core/ports/ProjectRepository'
 import { ProjectRepositoryImpl } from '../../../adapters/typeorm/repositoryImpl/ProjectRepositoryImpl'
-import { validateApiKEy } from '../../middlewares/validateApiKey'
 
 const memberRepository: ProjectMemberRepository =
   new ProjectMemberRepositoryImpl(AppDataSource)
@@ -20,8 +19,6 @@ const memberService = new ProjectMemberService(
 const memberController = new ProjectMemberController(memberService)
 
 export const memberRouter = Router()
-
-memberRouter.use(validateApiKEy)
 
 memberRouter.get('/', memberController.getAllProjectMembers)
 memberRouter.get('/:projectId', memberController.getProjectMember)

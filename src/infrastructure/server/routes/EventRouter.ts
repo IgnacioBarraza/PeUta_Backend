@@ -1,6 +1,5 @@
 import { Router } from 'express'
 import { EventController } from '../../controllers/EventController'
-import { validateApiKEy } from '../../middlewares/validateApiKey'
 import { EventService } from '../../../core/services/EventService'
 import { EventRepository } from '../../../core/ports/EventRepository'
 import { EventRepositoryImpl } from '../../../adapters/typeorm/repositoryImpl/EventRepositoryImpl'
@@ -21,10 +20,8 @@ const eventService = new EventService(eventRepository, clientRepository)
 const eventController = new EventController(eventService)
 export const eventRouter = Router()
 
-eventRouter.use(validateApiKEy)
-
 eventRouter.get('/', eventController.getAllEventsByApikey)
-eventRouter.get('/:id', validateApiKEy, eventController.getEventByIdAndApikey)
-eventRouter.post('/', validateApiKEy, eventController.createEvent)
+eventRouter.get('/:id', eventController.getEventByIdAndApikey)
+eventRouter.post('/', eventController.createEvent)
 eventRouter.patch('/:id', eventController.updateEvent)
 eventRouter.delete('/:id', eventController.deleteEvent)

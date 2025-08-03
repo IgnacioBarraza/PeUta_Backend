@@ -10,8 +10,6 @@ import { UserRepository } from '../../../core/ports/UserRepository'
 import { UserRepositoryImpl } from '../../../adapters/typeorm/repositoryImpl/UserRepositoryImpl'
 import { EvaluationQuestionRepository } from '../../../core/ports/EvaluationQuestionRepository'
 import { EvaluationQuestionRepositoryImpl } from '../../../adapters/typeorm/repositoryImpl/EvaluationQuestionRepositoryImpl'
-import { validateApiKEy } from '../../middlewares/validateApiKey'
-import { authenticateToken } from '../../middlewares/authMiddleware'
 import { ProjectRepository } from '../../../core/ports/ProjectRepository'
 import { ProjectRepositoryImpl } from '../../../adapters/typeorm/repositoryImpl/ProjectRepositoryImpl'
 import { EvaluationFormRepository } from '../../../core/ports/EvaluationFormRepository'
@@ -42,9 +40,6 @@ const evaluationService = new ProjectEvaluationService(
 const evaluationController = new ProjectEvaluationController(evaluationService)
 
 export const evaluationRouter = Router()
-
-evaluationRouter.use(validateApiKEy)
-evaluationRouter.use(authenticateToken)
 
 evaluationRouter.get('/', evaluationController.getAllEvaluations)
 evaluationRouter.get('/:id', evaluationController.getEvaluationById)

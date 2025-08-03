@@ -9,7 +9,6 @@ import { EventRepositoryImpl } from '../../../adapters/typeorm/repositoryImpl/Ev
 import { ClientRepository } from '../../../core/ports/ClientRepository'
 import { EventRepository } from '../../../core/ports/EventRepository'
 import { ClientService } from '../../../core/services/ClientService'
-import { validateApiKEy } from '../../middlewares/validateApiKey'
 
 const clientRepository: ClientRepository = new ClientRepositoryImpl(
   AppDataSource
@@ -28,8 +27,6 @@ const categoryService = new CategoryService(categoryRepository, eventRepository)
 const categoryController = new CategoryController(categoryService)
 
 export const categoryRouter = Router()
-
-categoryRouter.use(validateApiKEy)
 
 categoryRouter.get('/', categoryController.getAllCategories)
 categoryRouter.get('/:id', categoryController.getCategoryById)

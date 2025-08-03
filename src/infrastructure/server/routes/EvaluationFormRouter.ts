@@ -9,7 +9,6 @@ import { ClientService } from '../../../core/services/ClientService'
 import { AppDataSource } from '../../orm/data-source'
 import { EvaluationFormRepository } from '../../../core/ports/EvaluationFormRepository'
 import { EvaluationFormRepositoryImpl } from '../../../adapters/typeorm/repositoryImpl/EvaluationFormRepositoryImpl'
-import { validateApiKEy } from '../../middlewares/validateApiKey'
 
 const clientRepository: ClientRepository = new ClientRepositoryImpl(
   AppDataSource
@@ -27,8 +26,6 @@ const formService = new EvaluationFormService(formRepository, eventRepository)
 const formController = new EvaluationFormController(formService)
 
 export const formRouter = Router()
-
-formRouter.use(validateApiKEy)
 
 formRouter.get('/', formController.getAllForms)
 formRouter.get('/:id', formController.getFormById)

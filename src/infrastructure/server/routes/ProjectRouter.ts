@@ -11,7 +11,6 @@ import { ClientRepositoryImpl } from '../../../adapters/typeorm/repositoryImpl/C
 import { ClientService } from '../../../core/services/ClientService'
 import { CategoryRepository } from '../../../core/ports/CategoryRepository'
 import { CategoryRepositoryImpl } from '../../../adapters/typeorm/repositoryImpl/CategoryRepositoryImpl'
-import { validateApiKEy } from '../../middlewares/validateApiKey'
 
 const clientRepository: ClientRepository = new ClientRepositoryImpl(
   AppDataSource
@@ -38,8 +37,6 @@ const projectService = new ProjectService(
 const projectController = new ProjectController(projectService)
 
 export const projectRouter = Router()
-
-projectRouter.use(validateApiKEy)
 
 projectRouter.get('/', projectController.getAllProjects)
 projectRouter.get('/:id', projectController.getProjectById)

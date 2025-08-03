@@ -6,7 +6,6 @@ import { EvaluationFormRepositoryImpl } from '../../../adapters/typeorm/reposito
 import { AppDataSource } from '../../orm/data-source'
 import { EvaluationQuestionRepositoryImpl } from '../../../adapters/typeorm/repositoryImpl/EvaluationQuestionRepositoryImpl'
 import { EvaluationFormRepository } from '../../../core/ports/EvaluationFormRepository'
-import { validateApiKEy } from '../../middlewares/validateApiKey'
 
 const questionRepository: EvaluationQuestionRepository =
   new EvaluationQuestionRepositoryImpl(AppDataSource)
@@ -19,8 +18,6 @@ const questionService = new EvaluationQuestionService(
 const questionController = new EvaluationQuestionController(questionService)
 
 export const questionRouter = Router()
-
-questionRouter.use(validateApiKEy)
 
 questionRouter.get('/', questionController.getAllQuestions)
 questionRouter.get('/:id', questionController.getQuestionById)
