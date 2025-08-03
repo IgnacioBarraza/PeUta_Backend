@@ -37,6 +37,9 @@ app.use(cookieParser())
  * Routes
  */
 
+app.use('/healthy', (req: Request, res: Response) => {
+  sendResponse(req, res, 'OK', 200)
+})
 app.use('/api/users', userRouter)
 app.use('/api/roles', roleRouter)
 app.use('/api/clients', clientRouter)
@@ -55,10 +58,6 @@ app.use('/api/questions', questionRouter)
 app.use('/api/answers', answerRouter)
 app.use('/api/evaluations', evaluationRouter)
 app.use('/api/exports', exportRouter)
-
-app.use('/healthy', (req: Request, res: Response) => {
-  sendResponse(req, res, 'OK', 200)
-})
 
 /**
  * Middlewares
