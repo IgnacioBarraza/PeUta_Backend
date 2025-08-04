@@ -1,3 +1,4 @@
+import { EventStatus } from '../../adapters/typeorm/schema/Event'
 import { AttendanceSessionEntity } from './AttendanceSessionEntity'
 import { CategoryEntity } from './CategoryEntity'
 import { ClientEntity } from './ClientEntity'
@@ -14,6 +15,9 @@ export class EventEntity {
   date_end: Date
   location: string
   banner_url: string
+  registration_method: 'email' | 'rut' | 'both'
+  allow_public_evaluation: boolean
+  status: EventStatus
   client: ClientEntity
   created_at: Date
   updated_at: Date
@@ -34,6 +38,9 @@ export class EventEntity {
     this.date_end = data.date_end
     this.location = data.location
     this.banner_url = data.banner_url
+    this.registration_method = data.registration_method
+    this.allow_public_evaluation = data.allow_public_evaluation ?? false
+    this.status = data.status ?? EventStatus.Pending
     this.client = data.client
     this.created_at = data.created_at
     this.updated_at = data.updated_at

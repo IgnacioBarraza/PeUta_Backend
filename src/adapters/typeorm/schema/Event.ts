@@ -16,6 +16,14 @@ import { EvaluationForm } from './EvaluationForm'
 import { EvaluationReviewer } from './EvaluationReviewer'
 import { AttendanceSession } from './AttendanceSession'
 
+export enum EventStatus {
+  Pending = 'pending',
+  Active = 'active',
+  Completed = 'completed',
+  Archived = 'archived',
+  Canceled = 'canceled',
+}
+
 @Entity()
 export class Event {
   @PrimaryGeneratedColumn('uuid')
@@ -55,6 +63,9 @@ export class Event {
     nullable: false,
   })
   allow_public_evaluation!: boolean
+
+  @Column({ type: 'enum', enum: EventStatus, default: EventStatus.Pending })
+  status!: EventStatus
 
   @ManyToOne(() => Client, client => client.events)
   @JoinColumn({ name: 'client_id' })
