@@ -1,18 +1,4 @@
-import { string, array, date, object } from 'zod'
-import { EventSchema } from './EventValidation'
-import { ClientStaffSchema } from './ClientStaffValidation'
-
-export const ClientSchema = object({
-  id: string(),
-  name: string(),
-  api_key: string(),
-  contact_email: string().email(),
-  logo_url: string().url().optional(),
-  staff: array(ClientStaffSchema),
-  events: array(EventSchema),
-  created_at: date(),
-  updated_at: date(),
-})
+import { string, object } from 'zod'
 
 export const ClientCreateSchema = object({
   name: string(),
