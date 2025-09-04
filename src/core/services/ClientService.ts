@@ -53,7 +53,7 @@ export class ClientService {
         'Client already exists',
       ])
 
-    const apiKey = generateApiKey()
+    const apiKey = generateApiKey(10)
     const newClient = await this.clientRepository.createClient({
       ...data,
       api_key: apiKey,

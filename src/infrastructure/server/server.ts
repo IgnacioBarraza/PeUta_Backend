@@ -40,16 +40,17 @@ app.use(cookieParser())
 app.use('/healthy', (req: Request, res: Response) => {
   sendResponse(req, res, 'OK', 200)
 })
+
 app.use('/api/users', userRouter)
 app.use('/api/roles', roleRouter)
 app.use('/api/clients', clientRouter)
+app.use('/api/events', eventRouter)
 
 app.use(
   validateApiKEy,
   authenticateToken,
   authorizeRoles(['super_admin', 'admin', 'staff'])
 )
-app.use('/api/events', eventRouter)
 app.use('/api/projects', projectRouter)
 app.use('/api/categories', categoryRouter)
 app.use('/api/members', memberRouter)
