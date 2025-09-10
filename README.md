@@ -4,7 +4,7 @@
 
 **Hyōsei** is a web platform crafted to streamline the organization, participation, and evaluation of university science fairs, expos, and academic project showcases. This backend provides a secure, scalable API for managing users, evaluations, projects, schedules, and more—powering both visitors and evaluators through a seamless experience.
 
-🔹 **Frontend:** Angular (WIP)  
+🔹 **Frontend:** Angular  
 🔹 **Backend:** Node.js with Express & TypeScript  
 🔹 **Database:** PostgreSQL + TypeORM  
 🔹 **Architecture:** Hexagonal (Ports & Adapters)  
@@ -53,8 +53,8 @@
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/your-user/hyosei-backend.git
-   cd hyosei-backend
+   git clone https://github.com/your-user/hyosei_backend.git
+   cd hyosei_backend
    ```
 
 2. **Install dependencies**
