@@ -14,7 +14,11 @@ export function authenticateToken(
   next: NextFunction
 ) {
   const authHeader = req.headers['authorization']
-  const token = authHeader?.split(' ')[1] // "Bearer <token>"
+  let token = authHeader?.split(' ')[1] // "Bearer <token>"
+
+  if (!token && req.cookies) {
+    token = req.cookies['user_token']
+  }
 
   if (!token)
     throw new CustomError('Token no proporcionado', 401, [

@@ -17,9 +17,11 @@ export const userRouter = Router()
 
 userRouter.post('/login', userController.login)
 userRouter.post('/signup', userController.register)
+userRouter.post('/logout', userController.logout)
 
 userRouter.use(authenticateToken)
 
+userRouter.get('/me', userController.getMe)
 userRouter.get('/', userController.getAllUsers)
 userRouter.get('/rut/:rut', userController.getByRut)
 userRouter.get('/email/:email', userController.getByEmail)

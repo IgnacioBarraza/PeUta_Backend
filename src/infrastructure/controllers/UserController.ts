@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express'
 import { UserService } from '../../core/services/UserService'
 import { sanitizeError, sendResponse } from '../../utils/utils'
 import { CustomError } from '../middlewares/errorHandler'
+import { AuthenticatedRequest } from '../middlewares/authMiddleware'
 
 export class UserController {
   private userService: UserService
@@ -172,6 +173,58 @@ export class UserController {
     try {
       const user = await this.userService.updateUser(id, data)
       sendResponse(req, res, user, 200)
+    } catch (error) {
+      const { message, errors } = sanitizeError(error)
+      next(
+        new CustomError(
+          message,
+          (error as CustomError).statusCode || 500,
+          errors
+        )
+      )
+    }
+  }
+
+  public getMe = async (
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> => {
+    try {
+      if (!req.userId)
+        throw new CustomError('User id missing from token', 401, [
+          'Usuario no autenticado',
+        ])
+
+      const user = await this.userService.getuserById(req.userId)
+      sendResponse(req, res, user, 200)
+    } catch (error) {
+      const { message, errors } = sanitizeError(error)
+      next(
+        new CustomError(
+          message,
+          (error as CustomError).statusCode || 500,
+          errors
+        )
+      )
+    }
+  }
+
+  public logout = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> => {
+    try {
+      sendResponse(req, res, 'Cierre de sesión exitoso', 200, [
+        {
+          name: 'user_token',
+          value: '',
+          options: {
+            maxAge: 0,
+          },
+        },
+      ])
     } catch (error) {
       const { message, errors } = sanitizeError(error)
       next(
